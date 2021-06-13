@@ -32,7 +32,8 @@ class Canvas extends Component {
         this.ring_2_config = new RingConfig(parseInt(ring_2_profiles.charCodeAt(0) - 65), 2 + ring_2_width / 2, 1.2 + ring_2_height / 10, 45 + ring_2_size / 2, "I LOVE YOU");
 
         // this.serverUrl = "http://localhost:4000/";
-        this.serverUrl = "https://greatitteam.site:4000/"
+        // this.serverUrl = "https://greatitteam.site:4000/";
+        this.serverUrl = "https://wedding-band-backend.herokuapp.com";
 
         this.gGrooveStart = 0;
         this.mousePt = { x: 0, y: 0 };
