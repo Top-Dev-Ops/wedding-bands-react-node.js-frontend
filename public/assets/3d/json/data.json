@@ -1,0 +1,98 @@
+
+{
+    "outerProfileShapes": [
+        {
+            "arc": {
+                "disposition": "top-right",
+                "p1x": 5,
+                "p1y": 0.8641,
+                "p2x": 4.6106,
+                "p2y": 0.3302,
+                "cx": 4.4394,
+                "cy": 0.8641,
+                "dir": "CW"
+            }
+        },
+        {
+            "arc": {
+                "disposition": "top",
+                "p1x": 4.6106,
+                "p1y": 0.3302,
+                "p2x": 0.3894,
+                "p2y": 0.3302,
+                "cx": 2.5,
+                "cy": 6.9114,
+                "dir": "CW"
+            }
+        },
+        {
+            "arc": {
+                "disposition": "top-left",
+                "p1x": 0.3894,
+                "p1y": 0.3302,
+                "p2x": 0,
+                "p2y": 0.8641,
+                "cx": 0.5606,
+                "cy": 0.8641,
+                "dir": "CW"
+            }
+        }
+    ],
+    "innerProfileShapes": [
+        {
+            "segment": {
+                "disposition": "left",
+                "p1x": 0,
+                "p1y": 0.8641,
+                "p2x": 0,
+                "p2y": 0.9361
+            }
+        },
+        {
+            "arc": {
+                "disposition": "bottom-left",
+                "p1x": 0,
+                "p1y": 0.9361,
+                "p2x": 0.3894,
+                "p2y": 1.4699,
+                "cx": 0.5606,
+                "cy": 0.9361,
+                "dir": "CW"
+            }
+        },
+        {
+            "arc": {
+                "disposition": "bottom",
+                "p1x": 0.3894,
+                "p1y": 1.4699,
+                "p2x": 4.6106,
+                "p2y": 1.4699,
+                "cx": 2.5,
+                "cy": -5.1113,
+                "dir": "CW"
+            }
+        },
+        {
+            "arc": {
+                "disposition": "bottom-right",
+                "p1x": 4.6106,
+                "p1y": 1.4699,
+                "p2x": 5,
+                "p2y": 0.9361,
+                "cx": 4.4394,
+                "cy": 0.9361,
+                "dir": "CW"
+            }
+        },
+        {
+            "segment": {
+                "disposition": "right",
+                "p1x": 5,
+                "p1y": 0.9361,
+                "p2x": 5,
+                "p2y": 0.8641
+            }
+        }
+    ],
+    "circumference": 64
+}

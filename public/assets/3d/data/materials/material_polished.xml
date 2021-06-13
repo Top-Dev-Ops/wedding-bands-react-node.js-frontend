@@ -1,0 +1,6 @@
+<material extends="@materials/base_single-level.xml">
+	<properties>
+	
+		<property name="basemapType" value="polished" />
+	</properties>
+</material>

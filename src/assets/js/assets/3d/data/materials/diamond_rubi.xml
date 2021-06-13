@@ -1,0 +1,4 @@
+<material extends="@materials/diamond.xml">
+	<properties>
+	</properties>
+</material>

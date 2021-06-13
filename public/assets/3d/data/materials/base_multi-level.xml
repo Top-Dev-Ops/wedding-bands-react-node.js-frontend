@@ -1,0 +1,49 @@
+<material assembler="MultiLevelMaterialAssemblerGL">
+	
+	<properties>
+	
+		<!-- 
+		<property name="ambientOcclusionPath"/>
+		<property name="ambientOcclusionAlpha"/>
+		<property name="normalMapPath"/>
+		<property name="normalMapRepeat"/>
+		<property name="gradientImagePath"/>
+		<property name="gradientGenerateMipmaps"/>
+		<property name="emissiveColor"/>
+		<property name="normalScaleX"/>
+		<property name="normalScaleY"/>
+		<property name="bumpMapPath"/>
+		<property name="bumpRepeat"/>
+		<property name="bumpScale"/>
+		<property name="basemapType"/>
+		<property name="envMapIntensity"/>
+		<property name="sphereMapPath"/>
+		<property name="roughness"/>
+		<property name="roughnesMapPath"/>
+		<property name="roughnesMapRepeat"/>
+		<property name="metalness"/>
+		<property name="metalnessMapPath"/>
+		<property name="metalnessMapRepeat"/>
+		<property name="colorMap"/>
+		<property name="colorMapRepeat"/>
+		<property name="emissiveMap"/>
+		<property name="emissiveRepeat"/>
+		<property name="emissiveIntensity"/>
+		<property name="displacementMapPath"/>
+		<property name="displacementMapRepeat"/>
+		<property name="displacementScale"/>
+		<property name="refractionRatio"/>
+		<property name="transformRedOffset"/>
+		<property name="transformGreenOffset"/>
+		<property name="transformBlueOffset"/>
+		<property name="transformRedMultiplier"/>
+		<property name="transformGreenMultiplier"/>
+		<property name="transformBlueMultiplier"/>
+		<property name="envmapEnablePmrem"/>
+		-->
+		
+		<property name="gradientImagePath" value="@gradients/${gradient}.png"/>
+		<property name="basemapType" value="polished" />
+		<property name="envmapEnablePmrem" value="true" />
+	</properties>
+</material>

@@ -1,0 +1,7 @@
+<material extends="@materials/engraving.xml">
+	<properties>
+		<property name="transformRedMultiplier" value="0.80" />
+		<property name="transformGreenMultiplier" value="0.80" />
+		<property name="transformBlueMultiplier" value="0.80" />
+	</properties>
+</material>

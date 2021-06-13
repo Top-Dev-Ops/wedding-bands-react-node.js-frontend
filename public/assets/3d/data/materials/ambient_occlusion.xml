@@ -1,0 +1,6 @@
+<material-override>
+	<properties>
+		<property name="ambientOcclusionPath" value="@/${model}_ao.jpg" />
+		<property name="ambientOcclusionAlpha" value="${_aoAlpha}" />
+	</properties>
+</material-override>

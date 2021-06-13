@@ -1,0 +1,16 @@
+<material assembler="DiamondMaterialAssembler">
+	<properties>
+		<property name="highlightMapPath" value="@textures/diamond_highlight.jpg" />
+        <property name="sparkleMapPath" value="@textures/diamond_sparkle.jpg" />
+        <property name="sphereMapBottomPath" value="@textures/diamond_bottom_spheremap.png" />
+        <property name="trianglesBottomMapPath" value="@textures/diamond_bottom_spheremap.png" />
+        <property name="trianglesTopMapPath" value="@textures/diamond_top_triangles.png" />
+        <property name="fireMapPath" value="@textures/diamond_fire.jpg" />
+        <property name="trianglesScale" value="2.5" />
+
+        <?ifdef ${gradient} ?>
+            <property name="gradientMapPath" value="@gradients/${gradient}.png"/>
+        <?endif ?>
+
+	</properties>
+</material>

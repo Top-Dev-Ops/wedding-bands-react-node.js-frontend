@@ -1,0 +1,7 @@
+<material extends="@materials/base_single-level.xml">
+	<properties>
+		<property name="transformRedMultiplier" value="0.70" />
+		<property name="transformGreenMultiplier" value="0.70" />
+		<property name="transformBlueMultiplier" value="0.70" />
+	</properties>
+</material>

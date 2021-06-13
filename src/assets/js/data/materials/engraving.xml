@@ -1,0 +1,25 @@
+<material assembler="EngravingMaterialAssembler">
+	
+	<properties>
+	
+		<!--
+		<property name="transformRedOffset" optional/>
+		<property name="transformGreenOffset" optional />
+		<property name="transformBlueOffset" optional />
+		
+		<property name="transformRedMultiplier" optional/>
+		<property name="transformGreenMultiplier" optional />
+		<property name="transformBlueMultiplier" optional />
+		-->
+		
+		<property name="transformRedMultiplier" value="0.9" />
+		<property name="transformGreenMultiplier" value="0.9" />
+		<property name="transformBlueMultiplier" value="0.9" />
+	
+		<property name="gradientImagePath" value="@gradients/${gradient}.png"/>
+		<property name="reflectionAlpha" value="1" />
+		<property name="basemapType" value="polished" />
+		<property name="materialAmbient" value="1" />
+		<property name="materialSpecular" value="1.0" />
+	</properties>
+</material>

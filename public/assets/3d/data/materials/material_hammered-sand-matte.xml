@@ -1,0 +1,29 @@
+<!-- GEHAMMERT SANDMATT -->
+
+<material extends="@materials/base_multi-level.xml">
+	<properties>
+	
+		<property name="sphereMapPath" value="@textures/lightmap.png" />
+		
+		<property name="normalMapPath" value="@normals/hammered_normal.jpg" />	
+		<property name="roughnesMapPath" value="@mask/hammered_matte_mask.jpg" />
+	
+		<property name="normalScaleX" value="1.5"/>
+        <property name="normalScaleY" value="1.5"/>
+		
+		<property name="roughness" value="1" />
+        <property name="metalness" value="1" />
+		
+		
+		<property name="transformRedMultiplier" value="1.2" />
+        <property name="transformGreenMultiplier" value="1.2" />
+        <property name="transformBlueMultiplier" value="1.2" />
+		
+		<property name="refractionRatio" value="1"/>
+        <property name="envMapIntensity" value="1"/>
+        <property name="basemapType" value="blurred"/>
+		
+		<property name="scaleU" value="0.2" />
+		<property name="scaleV" value="0.09" />
+	</properties>
+</material>

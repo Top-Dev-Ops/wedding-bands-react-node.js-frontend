@@ -1,0 +1,23 @@
+<material extends="@materials/base_multi-level.xml">
+	<properties>
+		<property name="sphereMapPath" value="@textures/lightmap.png" />
+
+		<property name="normalMapPath" value="@normals/exclusive-matte_normal.jpg" />
+		<property name="normalScaleX" value="1.9"/>
+        <property name="normalScaleY" value="1.9"/>
+		
+		<property name="roughness" value="0.4" />
+        <property name="metalness" value="0.7" />
+		
+		<property name="transformRedMultiplier" value="1.15" />
+        <property name="transformGreenMultiplier" value="1.15" />
+        <property name="transformBlueMultiplier" value="1.15" />
+		
+		<property name="refractionRatio" value="1"/>
+        <property name="envMapIntensity" value="1"/>
+        <property name="basemapType" value="polished"/>
+		
+		<property name="scaleU" value="0.175" />
+		<property name="scaleV" value="0.175" />
+	</properties>
+</material>

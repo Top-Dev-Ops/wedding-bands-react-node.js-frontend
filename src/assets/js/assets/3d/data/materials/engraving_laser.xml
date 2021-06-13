@@ -1,0 +1,11 @@
+<material extends="@materials/engraving.xml">
+	<properties>
+		<property name="transformRedOffset" value="-50" />
+		<property name="transformGreenOffset" value="-50" />
+		<property name="transformBlueOffset" value="-50" />
+		
+		<property name="transformRedMultiplier" value="1" />
+		<property name="transformGreenMultiplier" value="1" />
+		<property name="transformBlueMultiplier" value="1" />
+	</properties>
+</material>

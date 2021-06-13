@@ -1,0 +1,18 @@
+<material assembler="SingleLevelMaterialAssembler">
+	
+	<properties>
+	
+		<!-- 
+		<property name="gradientImagePath"/> 
+		<property name="normalMapPath" optional/> 
+		<property name="ambientOcclusionPath" optional/>  
+		<property name="ambientOcclusionAlpha" optional/> 
+		-->
+		
+		<property name="gradientImagePath" value="@gradients/${gradient}.png"/>
+		<property name="reflectionAlpha" value="1" />
+		<property name="basemapType" value="polished" />
+		<property name="materialAmbient" value="1" />
+		<property name="materialSpecular" value="1.0" />
+	</properties>
+</material>

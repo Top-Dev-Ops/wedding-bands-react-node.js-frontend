@@ -1,0 +1,5 @@
+<material-override>
+	<properties>
+		<property name="basemapType" value="blurred" />
+	</properties>
+</material-override>

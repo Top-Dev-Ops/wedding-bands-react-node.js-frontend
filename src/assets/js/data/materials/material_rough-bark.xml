@@ -1,0 +1,29 @@
+<material extends="@materials/base_multi-level.xml">
+	<properties>
+		<property name="sphereMapPath" value="@textures/lightmap.png" />
+
+		<property name="normalMapPath" value="@normals/rough-bark_normal.jpg" />
+		<property name="normalScaleX" value="1.1"/>
+        <property name="normalScaleY" value="1.1"/>
+		
+		<property name="roughnesMapPath" value="@bumpmaps/rough-bark_rough.jpg" />
+
+		<property name="roughness" value="0.4" />
+        <property name="metalness" value="0.9" />
+		
+		<property name="transformRedMultiplier" value="0.95" />
+        <property name="transformGreenMultiplier" value="0.95" />
+        <property name="transformBlueMultiplier" value="0.95" />
+
+        <property name="transformRedOffset" value="50" />
+        <property name="transformGreenOffset" value="50" />
+        <property name="transformBlueOffset" value="50" />
+		
+		<property name="refractionRatio" value="1"/>
+        <property name="envMapIntensity" value="1"/>
+        <property name="basemapType" value="polished"/>
+
+		<property name="scaleU" value="0.18" />
+		<property name="scaleV" value="0.18" />
+	</properties>
+</material>

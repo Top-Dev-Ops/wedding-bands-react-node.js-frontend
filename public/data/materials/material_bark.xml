@@ -1,0 +1,23 @@
+<material extends="@materials/base_multi-level.xml">
+	<properties>
+		<property name="sphereMapPath" value="@textures/lightmap.png" />
+
+		<property name="normalMapPath" value="@normals/bark_normal.jpg" />
+		<property name="normalScaleX" value="1.6"/>
+        <property name="normalScaleY" value="1.6"/>
+		
+		<property name="roughness" value="0.3" />
+        <property name="metalness" value="0.6" />
+		
+		<property name="transformRedMultiplier" value="1.1" />
+        <property name="transformGreenMultiplier" value="1.1" />
+        <property name="transformBlueMultiplier" value="1.1" />
+		
+		<property name="refractionRatio" value="1"/>
+        <property name="envMapIntensity" value="1"/>
+        <property name="basemapType" value="blurred"/>
+
+		<property name="scaleU" value="0.035" />
+		<property name="scaleV" value="0.035" />
+	</properties>
+</material>

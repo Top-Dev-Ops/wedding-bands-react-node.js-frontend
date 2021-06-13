@@ -1,0 +1,30 @@
+<!-- EISMATT -->
+
+<material extends="@materials/base_multi-level.xml">
+	<properties>
+		<property name="sphereMapPath" value="@textures/lightmap.png" />
+
+		<property name="normalMapPath" value="@normals/ice-matte_normal.jpg" />
+		<property name="normalScaleX" value="0.9"/>
+        <property name="normalScaleY" value="0.9"/>
+		
+		<property name="roughness" value="0.2" />
+        <property name="metalness" value="1" />
+		
+		<property name="transformRedMultiplier" value="1" />
+        <property name="transformGreenMultiplier" value="1" />
+        <property name="transformBlueMultiplier" value="1" />
+		
+		<property name="transformRedOffset" value="30" />
+        <property name="transformGreenOffset" value="30" />
+        <property name="transformBlueOffset" value="30" />
+		
+		<property name="refractionRatio" value="1"/>
+        <property name="envMapIntensity" value="1"/>
+        <property name="basemapType" value="blurred"/>
+		
+		<property name="scaleU" value="0.1" />
+		<property name="scaleV" value="0.1" />
+	</properties>
+</material>
+
