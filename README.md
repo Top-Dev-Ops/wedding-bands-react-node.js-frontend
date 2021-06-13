@@ -24,6 +24,9 @@ yarn test
 ```
 Before running frontend, please make sure that backend is running.
 
+## Live URL
+Demo URL: [r2h]: https://wedding-bands-react-node-js.vercel.app/
+
 ## License
 
 This project is licensed under the GIT License.
