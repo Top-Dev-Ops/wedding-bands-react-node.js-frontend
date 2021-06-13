@@ -33,7 +33,7 @@ class Canvas extends Component {
 
         // this.serverUrl = "http://localhost:4000/";
         // this.serverUrl = "https://greatitteam.site:4000/";
-        this.serverUrl = "https://wedding-band-backend.herokuapp.com";
+        this.serverUrl = "https://wedding-band-backend.herokuapp.com/";
 
         this.gGrooveStart = 0;
         this.mousePt = { x: 0, y: 0 };
