@@ -190,3 +190,7 @@ export const SET_RING_PAIR_ENGRAVING_FONT = 'SET_RING_PAIR_ENGRAVING_FONT';
 export const SET_RING_1_ENGRAVING_FONT = 'SET_RING_1_ENGRAVING_FONT';
 export const SET_RING_2_ENGRAVING_FONT = 'SET_RING_2_ENGRAVING_FONT';
 /* end of engraving tab */
+
+/* load saved file */
+export const LOAD_FILE = 'LOAD_FILE';
+/* end of load saved file */

@@ -13,7 +13,16 @@ class SummaryContent extends Component {
 
     constructor() {
         super();
-        this.state = { show: false }
+        this.state = {
+            show: false,
+            page: 'home'
+        }
+    }
+
+    componentDidMount() {
+        if (window.location.pathname === '/order') {
+            this.setState({ page: 'order' });
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -83,7 +92,7 @@ class SummaryContent extends Component {
         const _sizes = Array.from(Array(59)).map((e, i) => (i / 2 + 45).toFixed(1) + " (Ø " + ((i / 2 + 45) / (Math.PI)).toFixed(2) + "mm)");
         const diamond_settings = ['None', 'Rubbed', 'Section', 'Channel', 'Cross channel', 'Free', 'Rubbed on the side', 'Rubbed on the side', 'Section on the side', 'Section on the side', 'Tensionring', 'Zarge'];
         const diamond_cuts = ['Brilliant', 'Princess', 'Baguette'];
-        let diamond_qualities = ['G/SI', 'G/VSI', 'G/IF', 'G/VVSI', 'G/SI'];
+        const diamond_qualities = ['G/SI', 'G/VSI', 'G/IF', 'G/VVSI', 'G/SI'];
         const diamond_positions = ['Left', 'Middle', 'Right', 'Free'];
         const engraving_fonts = ['Shelly Allegro', 'Bernhard Modern', 'Palette', 'Gando', 'Fine Hand', 'Handwriting', 'Typed Letters', 'Italics'];
 
@@ -94,10 +103,10 @@ class SummaryContent extends Component {
         return (
             <>
                 {/* summary desktop */}
-                <div className="summary-content">
+                <div className="summary-content" style={{ display: this.state.page === 'order' ? 'block' : undefined }}>
                     <div className="container-fluid-without-background">
                         <div className="row">
-                            <div className="col-7 col-lg-6 offset-1">
+                            <div className={`${this.state.page === 'home' ? 'col-7 col-lg-6 offset-1' : 'col-12 col-sm-10 offset-sm-1'}`}>
                                 <table>
                                     <tbody>
                                         <tr>
@@ -225,19 +234,22 @@ class SummaryContent extends Component {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="col-3 col-lg-4">
-                                <Link to="/configurator">
-                                    <button className="btn local-finder" type="button" tabIndex="0">
-                                        <i icon="maps" className="svg-icon svg-icon-maps">
-                                            <svg id="maps" viewBox="0 0 18 18" width="18" height="18">
-                                                <path d="M 7 6.7872 C 7 5.7297 7.8954 4.8723 9 4.8723 C 10.1046 4.8723 11 5.7297 11 6.7872 C 11 7.8448 10.1046 8.7021 9 8.7021 C 7.8954 8.7021 7 7.8448 7 6.7872 ZM 4 6.7872 C 4 9.4312 9 14 9 14 C 9 14 14 9.4312 14 6.7872 C 14 4.1433 11.7615 2 9 2 C 6.2385 2 4 4.1433 4 6.7872 Z"></path>
-                                                <path d="M 5 16 C 5 16.5523 6.7908 17 9 17 C 11.2092 17 13 16.5523 13 16 C 13 15.4477 11.2092 15 9 15 C 6.7908 15 5 15.4477 5 16 Z"></path>
-                                            </svg>
-                                        </i>
-                                        <span>Find your local jeweller</span>
-                                    </button>
-                                </Link>
-                            </div>
+
+                            {this.state.page === 'home' &&
+                                <div className="col-3 col-lg-4">
+                                    <Link to="/configurator">
+                                        <button className="btn local-finder" type="button" tabIndex="0">
+                                            <i icon="maps" className="svg-icon svg-icon-maps">
+                                                <svg id="maps" viewBox="0 0 18 18" width="18" height="18">
+                                                    <path d="M 7 6.7872 C 7 5.7297 7.8954 4.8723 9 4.8723 C 10.1046 4.8723 11 5.7297 11 6.7872 C 11 7.8448 10.1046 8.7021 9 8.7021 C 7.8954 8.7021 7 7.8448 7 6.7872 ZM 4 6.7872 C 4 9.4312 9 14 9 14 C 9 14 14 9.4312 14 6.7872 C 14 4.1433 11.7615 2 9 2 C 6.2385 2 4 4.1433 4 6.7872 Z"></path>
+                                                    <path d="M 5 16 C 5 16.5523 6.7908 17 9 17 C 11.2092 17 13 16.5523 13 16 C 13 15.4477 11.2092 15 9 15 C 6.7908 15 5 15.4477 5 16 Z"></path>
+                                                </svg>
+                                            </i>
+                                            <span>Find your local jeweller</span>
+                                        </button>
+                                    </Link>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
@@ -269,7 +281,7 @@ class SummaryContent extends Component {
                         <span className="nav-mobile-label label-taxinfo">incl. VAT</span>
                     </a>
 
-                    <a className="button-order">
+                    <a className="button-order" href="/order">
                         <i className="icon-left svg-icon svg-icon-cart-2" icon="cart-2">
                             <svg id="cart-2" viewBox="0 0 30 30" width="30" height="30">
                                 <path d="M 19 24.5 C 19 25.8807 20.1193 27 21.5 27 C 22.8807 27 24 25.8807 24 24.5 C 24 23.1193 22.8807 22 21.5 22 C 20.1193 22 19 23.1193 19 24.5 ZM 11 24.5 C 11 25.8807 12.1193 27 13.5 27 C 14.8807 27 16 25.8807 16 24.5 C 16 23.1193 14.8807 22 13.5 22 C 12.1193 22 11 23.1193 11 24.5 ZM 20.6047 11.3636 L 18.0555 8.7727 L 19.0692 7.7424 L 20.598 9.2963 L 24.0119 5.8266 L 25.0322 6.8636 L 20.6047 11.3636 ZM 16.1324 8.5227 C 16.1324 11.5729 18.5651 14.0455 21.5662 14.0455 C 24.5672 14.0455 27 11.5729 27 8.5227 C 27 5.4726 24.5672 3 21.5662 3 C 18.5651 3 16.1324 5.4726 16.1324 8.5227 ZM 6 7 L 2 7 L 2 8 L 5.375 8 L 11 21 L 24 21 L 24 20 L 11.8837 19.9545 L 6 7 ZM 15.1827 11.5856 L 9.5529 11.5856 C 9.5529 11.5856 12.5072 17.5134 13.0334 19.1176 L 24.1272 19.1176 L 25.5242 14.8636 C 25.5242 14.8636 23.9141 16.0348 21.5754 16.0348 C 17.8318 16.0348 16.235 13.7246 15.1827 11.5856 Z" fill="white"></path>

@@ -24,22 +24,22 @@ class EdgesControls extends Component {
 
     handleEdge = event => {
         if (event.target.id.includes('left_')) {
-            this.setState({ left_edge: event.target.id.replace('left_', '') });
+            this.setState({ left_edge: parseInt(event.target.id.replace('left_', '')) });
             if (this.props.data.ring === 'pair') {
-                this.props.setRingPairLeftEdge(event.target.id.replace('left_', ''));
+                this.props.setRingPairLeftEdge(parseInt(event.target.id.replace('left_', '')));
             } else if (this.props.data.ring === 'ring_1') {
-                this.props.setRing1LeftEdge(event.target.id.replace('left_', ''));
+                this.props.setRing1LeftEdge(parseInt(event.target.id.replace('left_', '')));
             } else {
-                this.props.setRing2LeftEdge(event.target.id.replace('left_', ''));
+                this.props.setRing2LeftEdge(parseInt(event.target.id.replace('left_', '')));
             }
         } else {
-            this.setState({ right_edge: event.target.id.replace('right_', '') });
+            this.setState({ right_edge: parseInt(event.target.id.replace('right_', '')) });
             if (this.props.data.ring === 'pair') {
-                this.props.setRingPairRightEdge(event.target.id.replace('right_', ''));
+                this.props.setRingPairRightEdge(parseInt(event.target.id.replace('right_', '')));
             } else if (this.props.data.ring === 'ring_1') {
-                this.props.setRing1RightEdge(event.target.id.replace('right_', ''));
+                this.props.setRing1RightEdge(parseInt(event.target.id.replace('right_', '')));
             } else {
-                this.props.setRing2RightEdge(event.target.id.replace('right_', ''));
+                this.props.setRing2RightEdge(parseInt(event.target.id.replace('right_', '')));
             }
         }
     }
@@ -115,6 +115,7 @@ class EdgesControls extends Component {
         const widths_limits = [2, 3, 4, 5, 6, 7, ...Array(10).fill(11)];
         const ring_width = this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1' ? this.props.data.ring_1_width : this.props.data.ring_2_width;
         let surfaces = ['Polished', 'Fine matt'];
+        let carbon_surfaces = ['Wrapped', 'Prepreg'];
 
         left_edges = left_edges.map((item, index) => {
             return <li id={'left_' + index} key={index} className={index > 2 ? 'option disabled' : left_edge == index ? 'option active' : 'option'} onClick={index < 3 ? this.handleEdge : undefined}>
@@ -130,6 +131,7 @@ class EdgesControls extends Component {
         });
         widths = widths.map((item, index) => { return index <= widths_limits[ring_width] && <option key={index} value={index}>{item.toFixed(2) + " mm"}</option> });
         surfaces = surfaces.map((item, index) => { return <option key={index} value={index}>{item}</option> });
+        carbon_surfaces = carbon_surfaces.map((item, index) => { return <option key={index} value={index}>{item}</option> });
 
         return (
             <section className="tab-edges">
@@ -145,7 +147,7 @@ class EdgesControls extends Component {
                     <Form className="col-6 col-md-4">
                         <Form.Label className="dimensions-profile-width-label">Surface</Form.Label>
                         <Form.Control id="left_surface" as="select" className="dimensions-profile-width" onChange={this.handleSurface} defaultValue={left_surface}>
-                            {surfaces}
+                            {left_edge === 2 ? carbon_surfaces : surfaces}
                         </Form.Control>
                     </Form>
                 </div>}
@@ -162,7 +164,7 @@ class EdgesControls extends Component {
                     <Form className="col-6 col-md-4">
                         <Form.Label className="dimensions-profile-width-label">Surface</Form.Label>
                         <Form.Control id="right_surface" as="select" className="dimensions-profile-width" onChange={this.handleSurface} defaultValue={right_surface}>
-                            {surfaces}
+                            {right_edge === 2 ? carbon_surfaces : surfaces}
                         </Form.Control>
                     </Form>
                 </div>}

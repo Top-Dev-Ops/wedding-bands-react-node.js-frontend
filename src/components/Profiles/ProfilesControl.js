@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 // redux
 import { useSelector, useDispatch } from 'react-redux';
-import { setRingPairProfiles, setRing1Profiles, setRing2Profiles } from '../../redux/actions';
+import { setLoading, setRingPairProfiles, setRing1Profiles, setRing2Profiles } from '../../redux/actions';
 
 import { profiles } from '../../assets/variables';
 
@@ -19,6 +19,7 @@ export default function ProfilesControl({ control }) {
     const selected_profile = ring === 'pair' || ring === 'ring_1' ? ring_1_profiles : ring_2_profiles;
 
     function handleClick(event) {
+        dispatch(setLoading());
         if (ring === 'pair') { dispatch(setRingPairProfiles(event.target.id)); }
         else if (ring === 'ring_1') { dispatch(setRing1Profiles(event.target.id)); }
         else { dispatch(setRing2Profiles(event.target.id)); }

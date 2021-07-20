@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink" id="diamonds" viewBox="0 0 30 30" width="30" height="30">
+    <g>
+        <path d="M 8 13 L 0 13 L 14 27 L 8 13 ZM 21 13 L 9 13 L 15 27 L 21 13 ZM 16 27 L 30 13 L 22 13 L 16 27 ZM 13 5 L 7 5 L 9 12 L 13 5 ZM 24 5 L 18 5 L 22 12 L 24 5 ZM 23 12 L 30 12 L 25 5 L 23 12 ZM 10 12 L 21 12 L 17 5 L 14 5 L 10 12 ZM 6 5 L 0 12 L 8 12 L 6 5 Z" className="shadow"></path>
+        <path d="M 8 12 L 0 12 L 14 26 L 8 12 ZM 21 12 L 9 12 L 15 26 L 21 12 ZM 16 26 L 30 12 L 22 12 L 16 26 ZM 13 4 L 7 4 L 9 11 L 13 4 ZM 24 4 L 18 4 L 22 11 L 24 4 ZM 23 11 L 30 11 L 25 4 L 23 11 ZM 10 11 L 21 11 L 17 4 L 14 4 L 10 11 ZM 6 4 L 0 11 L 8 11 L 6 4 Z" className="icon"></path>
+        <path opacity="0.102" d="M 8 12 L 0 12 L 1 13 L 8 13 L 13.25 25.25 L 14 26 L 8 12 ZM 21 12 L 10 12 L 9 12 L 9.43 13 L 20.57 13 L 21 12 ZM 16 26 L 16.75 25.25 L 22 13 L 29 13 L 30 12 L 23 12 L 22 12 L 16 26 ZM 13 4 L 7 4 L 7.285 5 L 12.43 5 L 13 4 ZM 24 4 L 18 4 L 18.57 5 L 23.715 5 L 24 4 ZM 23 11 L 23.285 11 L 25 5 L 29.285 11 L 30 11 L 25 4 L 23 11 ZM 10 11 L 10.57 11 L 14 5 L 17 5 L 20.43 11 L 21 11 L 17 4 L 14 4 L 10 11 ZM 6 4 L 0 11 L 0.855 11 L 6 5 L 7.715 11 L 8 11 L 6 4 Z" className="highlight"></path>
+    </g>
+</svg>

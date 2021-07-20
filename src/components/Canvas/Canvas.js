@@ -5,9 +5,7 @@ import PropTypes from 'prop-types';
 
 // redux
 import { connect } from 'react-redux';
-import { stopHandView, stopFullScreen, } from '../../redux/actions';
-
-import Loading from '../Loading';
+import { stopHandView, stopFullScreen, stopLoading } from '../../redux/actions';
 
 // three js engine for canvas rendering
 import { Metal, Groove, Diamond, RingConfig } from '../../assets/mainConfig';
@@ -124,8 +122,6 @@ class Canvas extends Component {
 
         if (state_changed) { this.testRingConfigurator('switch'); }
     }
-
-
 
     /* are called in  */
     checkTwoColorTab(metal, groove, ring_index) {
@@ -283,6 +279,11 @@ class Canvas extends Component {
         return (posArray[distArray[0].id + 1] + posArray[distArray[0].id]) / 2;
     }
 
+    callback = () => {
+        this.props.stopLoading();
+        console.log('LOADED MODEL');
+    }
+
     // mouse events on groove canvas
     mouseDownCanvas = e => {
         document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseDetector);
@@ -327,8 +328,10 @@ class Canvas extends Component {
                 groove: [this.ring_1_config.grooves.toConfig(), this.ring_2_config.grooves.toConfig()],     // ring grooves (grooves/edges tab)
                 edge: [this.ring_1_config.edges.toConfig(), this.ring_2_config.edges.toConfig()],           // ring edges (grooves/edges tab)
                 diamond: [this.ring_1_config.diamond.toConfig(), this.ring_2_config.diamond.toConfig()],    // ring diamonds (diamonds tab)
-                txt: [this.props.data.ring_1_engraving_text, this.props.data.ring_2_engraving_text]         // ring text (engraving tab) - (18k, 18k)
+                txt: [this.props.data.ring_1_engraving_text, this.props.data.ring_2_engraving_text],         // ring text (engraving tab) - (18k, 18k)
+                engrave: [this.ring_1_config.engrave.toConfig(), this.ring_2_config.engrave.toConfig()]
             };
+            console.log(sendData);
             $.ajax({
                 type: "post",
                 url: `${this.serverUrl}getJson`,
@@ -338,7 +341,7 @@ class Canvas extends Component {
                 success: (res) => {
                     let { innerWidth: width, innerHeight: height } = window;
                     width = width > 1500 ? 600 : width > 992 ? parseInt(width * 0.3) : width > 600 ? 600 : width * 0.8;
-                    InitDisplay.get_instance().switchRing(res.json);
+                    InitDisplay.get_instance().switchRing(res.json, this.callback);
                 }
             });
         }
@@ -537,7 +540,7 @@ class Canvas extends Component {
         let surface1 = ring_1_left_edge == 2 ? surfaceArray2[ring_1_left_surface] : surfaceArray[ring_1_left_surface];
         let type2 = typeArray[ring_1_right_edge];
         let width2 = widthArray[ring_1_right_width];
-        let surface2 = ring_1_left_edge == 2 ? surfaceArray2[ring_1_right_surface] : surfaceArray[ring_1_right_surface];
+        let surface2 = ring_1_right_edge == 2 ? surfaceArray2[ring_1_right_surface] : surfaceArray[ring_1_right_surface];
         this.ring_1_config.edges.leftEdge.type = type1;
         this.ring_1_config.edges.leftEdge.width = width1;
         this.ring_1_config.edges.leftEdge.surface = surface1;
@@ -552,7 +555,7 @@ class Canvas extends Component {
         surface1 = ring_2_left_edge == 2 ? surfaceArray2[ring_2_left_surface] : surfaceArray[ring_2_left_surface];
         type2 = typeArray[ring_2_right_edge];
         width2 = widthArray[ring_2_right_width];
-        surface2 = ring_2_left_edge == 2 ? surfaceArray2[ring_2_right_surface] : surfaceArray[ring_2_right_surface];
+        surface2 = ring_2_right_edge == 2 ? surfaceArray2[ring_2_right_surface] : surfaceArray[ring_2_right_surface];
         this.ring_2_config.edges.leftEdge.type = type1;
         this.ring_2_config.edges.leftEdge.width = width1;
         this.ring_2_config.edges.leftEdge.surface = surface1;
@@ -662,8 +665,10 @@ class Canvas extends Component {
                 success: (res) => {
                     let { innerWidth: width, innerHeight: height } = window;
                     width = width > 1500 ? 600 : width > 992 ? parseInt(width * 0.3) : width > 600 ? 600 : width * 0.8;
-                    if (param === 'init') { InitDisplay.get_instance().init('#container', width, res.json); }
-                    else { InitDisplay.get_instance().switchRing(res.json); }
+                    if (param === 'init') { InitDisplay.get_instance().init('#container', width, res.json, this.callback); }
+                    else {
+                        InitDisplay.get_instance().switchRing(res.json, this.callback);
+                    }
                 }
             });
         } else if (param === 'handview') {
@@ -677,7 +682,9 @@ class Canvas extends Component {
                     InitDisplay.get_instance().testHandView(res.json);
                 }
             });
-        } else if (param === 'fullscreen') { InitDisplay.get_instance().requestFullscreen(); }
+        } else if (param === 'fullscreen') {
+            InitDisplay.get_instance().requestFullscreen();
+        }
     }
 
     /* updates ring when resizing window */
@@ -686,12 +693,14 @@ class Canvas extends Component {
     /* closes hand view modal when clicking outside modal */
     mouseDownWindow = e => { e.target.id === 'canvas_modal' && this.props.stopHandView(); }
     mouseUpWindow = () => {
-        // document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseMove);
-        // document.getElementById('grooveCanvas').addEventListener('mousemove', this.grooveMouseDetector);
-        // if (this.mouseCapture) {
-        //     this.mouseCapture = false;
-        //     this.ring_1_config.displayGroove(this.captureIndex);
-        // }
+        if (document.getElementById('grooveCanvas') !== null) {
+            document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseMove);
+            document.getElementById('grooveCanvas').addEventListener('mousemove', this.grooveMouseDetector);
+        }
+        if (this.mouseCapture) {
+            this.mouseCapture = false;
+            this.ring_1_config.displayGroove(this.captureIndex);
+        }
     }
 
     /* initialises ring in canvas */
@@ -713,16 +722,14 @@ class Canvas extends Component {
     }
 
     render() {
-        const { loading, hand_view } = this.props.ui;
+        const { hand_view } = this.props.ui;
 
         return (
             <>
-                {loading && <Loading />}
-                {!loading && <>
-                    <div id="container" className="ring-canvas" ref={this.container}></div>
-                    <div id="canvas_modal" className={hand_view ? 'canvas-modal d-flex' : 'canvas-modal d-none'}>
-                        <div id="handview_container"></div>
-                    </div></>}
+                <div id="container" className="ring-canvas" ref={this.container}></div>
+                <div id="canvas_modal" className={hand_view ? 'canvas-modal d-flex' : 'canvas-modal d-none'}>
+                    <div id="handview_container"></div>
+                </div>
             </>
         );
     }
@@ -735,6 +742,6 @@ Canvas.propTypes = {
 };
 
 const mapStateToProps = (state) => ({ data: state.data, ui: state.ui });
-const mapActionsToProps = { stopHandView, stopFullScreen };
+const mapActionsToProps = { stopHandView, stopFullScreen, stopLoading };
 
 export default connect(mapStateToProps, mapActionsToProps)(Canvas);

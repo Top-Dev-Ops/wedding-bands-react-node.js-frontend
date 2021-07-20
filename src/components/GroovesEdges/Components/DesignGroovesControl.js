@@ -5,7 +5,47 @@ import PropTypes from 'prop-types';
 
 // redux
 import { connect } from 'react-redux';
-import { setRingPairDesignGrooveAdd, setRing1DesignGrooveAdd, setRing2DesignGrooveAdd, setRingPairDesignGroovesTypes, setRingPairDesignGroovesWidths, setRingPairDesignGroovesSurfaces, setRingPairDesignGroovesAlignments, setRingPairDesignGroovesPositions, setRing1DesignGroovesTypes, setRing1DesignGroovesWidths, setRing1DesignGroovesSurfaces, setRing1DesignGroovesAlignments, setRing1DesignGroovesPositions, setRing2DesignGroovesTypes, setRing2DesignGroovesWidths, setRing2DesignGroovesSurfaces, setRing2DesignGroovesAlignments, setRing2DesignGroovesPositions, updateRingPairDesignGroovesTypes, updateRingPairDesignGroovesWidths, updateRingPairDesignGroovesSurfaces, updateRingPairDesignGroovesAlignments, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesTypes, updateRing1DesignGroovesWidths, updateRing1DesignGroovesSurfaces, updateRing1DesignGroovesAlignments, updateRing1DesignGroovesPositions, updateRing2DesignGroovesTypes, updateRing2DesignGroovesWidths, updateRing2DesignGroovesSurfaces, updateRing2DesignGroovesAlignments, updateRing2DesignGroovesPositions, deleteRingPairDesignGroove, deleteRing1DesignGroove, deleteRing2DesignGroove, deleteRingPairAll, deleteRing1All, deleteRing2All, } from '../../../redux/actions';
+import {
+    setRingPairDesignGrooveAdd,
+    setRing1DesignGrooveAdd,
+    setRing2DesignGrooveAdd,
+    setRingPairDesignGroovesTypes,
+    setRingPairDesignGroovesWidths,
+    setRingPairDesignGroovesSurfaces,
+    setRingPairDesignGroovesAlignments,
+    setRingPairDesignGroovesPositions,
+    setRing1DesignGroovesTypes,
+    setRing1DesignGroovesWidths,
+    setRing1DesignGroovesSurfaces,
+    setRing1DesignGroovesAlignments,
+    setRing1DesignGroovesPositions,
+    setRing2DesignGroovesTypes,
+    setRing2DesignGroovesWidths,
+    setRing2DesignGroovesSurfaces,
+    setRing2DesignGroovesAlignments,
+    setRing2DesignGroovesPositions,
+    updateRingPairDesignGroovesTypes,
+    updateRingPairDesignGroovesWidths,
+    updateRingPairDesignGroovesSurfaces,
+    updateRingPairDesignGroovesAlignments,
+    updateRingPairDesignGroovesPositions,
+    updateRing1DesignGroovesTypes,
+    updateRing1DesignGroovesWidths,
+    updateRing1DesignGroovesSurfaces,
+    updateRing1DesignGroovesAlignments,
+    updateRing1DesignGroovesPositions,
+    updateRing2DesignGroovesTypes,
+    updateRing2DesignGroovesWidths,
+    updateRing2DesignGroovesSurfaces,
+    updateRing2DesignGroovesAlignments,
+    updateRing2DesignGroovesPositions,
+    deleteRingPairDesignGroove,
+    deleteRing1DesignGroove,
+    deleteRing2DesignGroove,
+    deleteRingPairAll,
+    deleteRing1All,
+    deleteRing2All
+} from '../../../redux/actions';
 
 import { grooves, design_grooves } from '../../../assets/variables';
 
@@ -28,16 +68,23 @@ class DesignGroovesControl extends Component {
         this.grooveCanvas = React.createRef();
     }
 
-    componentDidMount() { window.addEventListener('mousedown', this.clickWindow); }
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     if (prevProps.data.ring_1_config != this.props.data.ring_1_config || prevProps.data.ring_2_config != this.props.data.ring_2_config) {
-    //         this.ring_1_config = this.props.data.ring_1_config;
-    //         this.ring_2_config = this.props.data.ring_2_config;
+    componentDidMount() {
+        window.addEventListener('mousedown', this.clickWindow);
+    }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.data.ring_1_config != this.props.data.ring_1_config || prevProps.data.ring_2_config != this.props.data.ring_2_config) {
+            this.ring_1_config = this.props.data.ring_1_config;
+            this.ring_2_config = this.props.data.ring_2_config;
 
-    //         this.props.data.wizard === 'grooves' && (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') && this.props.data.ring_1_design_grooves_types.length > 0 && this.ring_1_config.displayGroove(45);
-    //         this.props.data.wizard === 'grooves' && this.props.data.ring === 'ring_2' && this.props.data.ring_2_design_grooves_types.length > 0 && this.ring_2_config.displayGroove(45);
-    //     }
-    // }
+            this.props.data.wizard === 'grooves' && (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') && this.props.data.ring_1_design_grooves_types.length > 0 && this.ring_1_config.displayGroove(45);
+            this.props.data.wizard === 'grooves' && this.props.data.ring === 'ring_2' && this.props.data.ring_2_design_grooves_types.length > 0 && this.ring_2_config.displayGroove(45);
+        }
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('mousedown', this.clickWindow);
+    }
 
     // click event on window outside controls
     clickWindow = e => { this.setState({ show_width: false, show_surface: false, jointTypeModal: false }); }
@@ -52,7 +99,7 @@ class DesignGroovesControl extends Component {
         if (this.props.data.ring === 'pair') { this.props.setRingPairDesignGrooveAdd(0); }
         else if (this.props.data.ring === 'ring_1') { this.props.setRing1DesignGrooveAdd(0); }
         else { this.props.setRing2DesignGrooveAdd(0); }
-        // this.props.updateRingPairDesignGrooveTypes({ index: 0, type: 'v' });
+        this.props.updateRingPairDesignGroovesTypes({ index: 0, type: 'v' });
     };
 
     // stores values of width, surface, alignment & position in redux store
@@ -134,21 +181,23 @@ class DesignGroovesControl extends Component {
         const alignments = ['straight', 'wave'].map((item, index) => {
             return <li key={index} className={index === 1 ? 'disabled' : undefined}>
                 <span className="option-image">
-                    {index == 0 && <svg id="groove-type-vertical" viewBox="0 0 18 25" width="18" height="25">
-                        <g id="a">
-                            <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" strokeWidth="1" stroke="currentColor" fill="none"></rect>
-                            <rect width="2" height="19" transform="translate(8 3)" fill="currentColor"></rect>
-                        </g>
-                    </svg>}
-                    {index == 1 && <svg id="groove-type-wave" viewBox="0 0 18 25" width="18" height="25">
-                        <g id="b">
-                            <g fill="none" stroke="currentColor" strokeWidth="1">
-                                <rect width="18" height="25" rx="2" stroke="none"></rect>
-                                <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" fill="none"></rect>
+                    {index == 0 ?
+                        <svg id="groove-type-vertical" viewBox="0 0 18 25" width="18" height="25">
+                            <g id="a">
+                                <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" strokeWidth="1" stroke="currentColor" fill="none"></rect>
+                                <rect width="2" height="19" transform="translate(8 3)" fill="currentColor"></rect>
                             </g>
-                            <path d="M531.031,346.515s4.219.919,4.219,4.571-5.462,3.721-5.462,7.68,4.243,4.267,4.243,4.267" transform="translate(-523.291 -342.43)" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path>
-                        </g>
-                    </svg>}
+                        </svg>
+                        : <svg id="groove-type-wave" viewBox="0 0 18 25" width="18" height="25">
+                            <g id="b">
+                                <g fill="none" stroke="currentColor" strokeWidth="1">
+                                    <rect width="18" height="25" rx="2" stroke="none"></rect>
+                                    <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" fill="none"></rect>
+                                </g>
+                                <path d="M531.031,346.515s4.219.919,4.219,4.571-5.462,3.721-5.462,7.68,4.243,4.267,4.243,4.267" transform="translate(-523.291 -342.43)" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path>
+                            </g>
+                        </svg>
+                    }
                 </span>
                 <span className="option-label">{item}</span>
             </li>
@@ -187,7 +236,7 @@ class DesignGroovesControl extends Component {
                                         <path d="M 16.1016 0.0351 L 6 0 C 4.75 0 4.0559 0.9985 4.0559 1.5807 L 4 4 L 6 4 L 6 2 L 16 2 L 16 11 L 14 11 L 14 13 L 16 13 C 16.8353 13 18.0759 11.7277 18 11 L 18 2 C 18 1.0539 17.1647 0.1079 16.1016 0.0351 ZM 7 7 L 7 10 L 10 10 L 10 12 L 7 12 L 7 15 L 5 15 L 5 12 L 2 12 L 2 10 L 5 10 L 5 7 L 7 7 ZM 3 5 C 1.3431 5 0 6.3431 0 8 L 0 14 C 0 15.6569 1.3431 17 3 17 L 9 17 C 10.6569 17 12 15.6569 12 14 L 12 8 C 12 6.3431 10.6569 5 9 5 L 3 5 Z"></path>
                                     </svg>
                                 </i> add
-                        </button>
+                            </button>
                         </div>
 
                         <div className="design-grooves-tabs-pane">
@@ -288,7 +337,7 @@ class DesignGroovesControl extends Component {
                             <div className="grooves-selector-delete">
                                 <button className="btn btn-transparent btn-delete" id="delete_this" onClick={this.handleDelete}>
                                     <span id="delete_this"> x </span> Delete this joint
-                            </button>
+                                </button>
                             </div>
 
                             {/* delete all button */}

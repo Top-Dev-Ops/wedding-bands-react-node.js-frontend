@@ -37,18 +37,18 @@ class MetalControls extends Component {
     // is called when clicking on 'Single Color' and images on detailed 'Two Colors' & 'Three Colors'
     handleChange = event => {
         if (event.target.id === 'one_color') {
-            if (this.props.data.ring == 'pair') { this.props.setPairMaterial(event.target.id); }
-            else if (this.props.data.ring == 'ring_1') { this.props.setRing1Material(event.target.id); }
+            if (this.props.data.ring === 'pair') { this.props.setPairMaterial(event.target.id); }
+            else if (this.props.data.ring === 'ring_1') { this.props.setRing1Material(event.target.id); }
             else { this.props.setRing2Material(event.target.id); }
         } else if (event.target.id.includes('two_')) {
             this.setState({ color: 'two', color_code: event.target.id, detailed_2: false, detailed_3: false });
-            if (this.props.data.ring == 'pair') { this.props.setPairMaterial(event.target.id); }
-            else if (this.props.data.ring == 'ring_1') { this.props.setRing1Material(event.target.id); }
+            if (this.props.data.ring === 'pair') { this.props.setPairMaterial(event.target.id); }
+            else if (this.props.data.ring === 'ring_1') { this.props.setRing1Material(event.target.id); }
             else { this.props.setRing2Material(event.target.id); }
         } else if (event.target.id.includes('three_')) {
             this.setState({ color: 'three', color_code: event.target.id, detailed_2: false, detailed_3: false });
-            if (this.props.data.ring == 'pair') { this.props.setPairMaterial(event.target.id); }
-            else if (this.props.data.ring == 'ring_1') { this.props.setRing1Material(event.target.id); }
+            if (this.props.data.ring === 'pair') { this.props.setPairMaterial(event.target.id); }
+            else if (this.props.data.ring === 'ring_1') { this.props.setRing1Material(event.target.id); }
             else { this.props.setRing2Material(event.target.id); }
         }
     }

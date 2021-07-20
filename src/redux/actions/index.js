@@ -156,6 +156,7 @@ import {
     DELETE_RING_PAIR_ALL,
     DELETE_RING_1_ALL,
     DELETE_RING_2_ALL,
+    LOAD_FILE
 } from '../types';
 
 // loading actions
@@ -174,9 +175,7 @@ const setUndo = (undo) => (dispatch) => { dispatch({ type: SET_UNDO, payload: un
 
 // wizard action
 const setWizard = (wizard) => (dispatch) => {
-    dispatch({ type: SET_LOADING });
     dispatch({ type: SET_WIZARD, payload: wizard });
-    dispatch({ type: STOP_LOADING });
     if (wizard === 'dimensions') { dispatch({ type: SET_RING, payload: 'pair' }); }
 }
 
@@ -220,253 +219,204 @@ const setRing2Disabled = (disabled) => (dispatch) => {
 const setPairMaterial = (material) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_PAIR_MATERIAL, payload: material });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Material = (material) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_MATERIAL, payload: material });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Material = (material) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_MATERIAL, payload: material });
-    dispatch({ type: STOP_LOADING });
 }
 
 // ring pair actions
 const setRingPairProfiles = (profiles) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_PROFILES, payload: profiles });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPairSurface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPairMetal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPairFineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair2Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_2_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair2Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_2_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair2Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_2_FINENESS, fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair3Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_3_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair3Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_3_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPair3Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_3_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPairWaveHeight = (height) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_WAVE_HEIGHT, payload: height });
-    dispatch({ type: STOP_LOADING });
 }
 const setRingPairNumberOfWaves = (num) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_PAIR_NUMBER_OF_WAVES, payload: num });
-    dispatch({ type: STOP_LOADING });
 }
 
 // ring 1 actions
 const setRing1Profiles = (profiles) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_PROFILES, payload: profiles });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Size = (size) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_SIZE, payload: size });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Type = (type) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_TYPE, payload: type });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Color = (color) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_COLOR, payload: color });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Width = (width) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_WIDTH, payload: width });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Height = (height) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_HEIGHT, payload: height });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing12Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_2_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing12Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_2_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing12Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_2_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing13Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_3_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing13Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_3_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing13Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_3_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1WaveHeight = (height) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_WAVE_HEIGHT, payload: height });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing1NumberOfWaves = (num) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_1_NUMBER_OF_WAVES, payload: num });
-    dispatch({ type: STOP_LOADING });
 }
 
 // ring 2 actions
 const setRing2Profiles = (profiles) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_PROFILES, payload: profiles });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Size = (size) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_SIZE, payload: size });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Type = (type) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_TYPE, payload: type });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Color = (color) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_COLOR, payload: color });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Width = (width) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_WIDTH, payload: width });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Height = (height) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_HEIGHT, payload: height });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing22Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_2_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing22Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_2_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing22Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_2_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing23Metal = (metal) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_3_METAL, payload: metal });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing23Surface = (surface) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_3_SURFACE, payload: surface });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing23Fineness = (fineness) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_3_FINENESS, payload: fineness });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2WaveHeight = (height) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_WAVE_HEIGHT, payload: height });
-    dispatch({ type: STOP_LOADING });
 }
 const setRing2NumberOfWaves = (num) => (dispatch) => {
     dispatch({ type: SET_LOADING });
     dispatch({ type: SET_RING_2_NUMBER_OF_WAVES, payload: num });
-    dispatch({ type: STOP_LOADING });
 }
 
 // edge actions
@@ -583,6 +533,9 @@ const setRing2EngravingText = (text) => (dispatch) => { dispatch({ type: SET_RIN
 const setRingPairEngravingFont = (font) => dispatch => { dispatch({ type: SET_RING_PAIR_ENGRAVING_FONT, payload: font }); }
 const setRing1EngravingFont = (font) => dispatch => { dispatch({ type: SET_RING_1_ENGRAVING_FONT, payload: font }); }
 const setRing2EngravingFont = (font) => dispatch => { dispatch({ type: SET_RING_2_ENGRAVING_FONT, payload: font }); }
+
+// load file
+const loadFile = (state) => dispatch => { dispatch({ type: LOAD_FILE, payload: state }); }
 
 export {
     setLoading,
@@ -742,4 +695,5 @@ export {
     deleteRingPairAll,
     deleteRing1All,
     deleteRing2All,
+    loadFile,
 };

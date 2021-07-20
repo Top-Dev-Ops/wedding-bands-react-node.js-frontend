@@ -148,6 +148,7 @@ import {
     DELETE_RING_PAIR_ALL,
     DELETE_RING_1_ALL,
     DELETE_RING_2_ALL,
+    LOAD_FILE
 } from '../types';
 
 const initialState = {
@@ -290,7 +291,53 @@ export default function (state = initialState, action) {
                 ring_1_wave_height: action.payload.ring_1_wave_height,
                 ring_2_wave_height: action.payload.ring_2_wave_height,
                 ring_1_number_of_waves: action.payload.ring_1_number_of_waves,
-                ring_2_number_of_waves: action.payload.ring_2_number_of_waves
+                ring_2_number_of_waves: action.payload.ring_2_number_of_waves,
+                ring_1_left_edge: action.payload.ring_1_left_edge,
+                ring_1_right_edge: action.payload.ring_1_right_edge,
+                ring_1_left_width: action.payload.ring_1_left_width,
+                ring_1_left_surface: action.payload.ring_1_left_surface,
+                ring_1_right_width: action.payload.ring_1_right_width,
+                ring_1_right_surface: action.payload.ring_1_right_surface,
+                ring_2_left_edge: action.payload.ring_2_left_edge,
+                ring_2_right_edge: action.payload.ring_2_right_edge,
+                ring_2_left_width: action.payload.ring_2_left_width,
+                ring_2_left_surface: action.payload.ring_2_left_surface,
+                ring_2_right_width: action.payload.ring_2_right_width,
+                ring_2_right_surface: action.payload.ring_2_right_surface,
+                ring_1_diamond_setting: action.payload.ring_1_diamond_setting,
+                ring_2_diamond_setting: action.payload.ring_2_diamond_setting,
+                ring_1_diamond_cut: action.payload.ring_1_diamond_cut,
+                ring_2_diamond_cut: action.payload.ring_2_diamond_cut,
+                ring_1_diamond_size: action.payload.ring_1_diamond_size,
+                ring_2_diamond_size: action.payload.ring_2_diamond_size,
+                ring_1_diamond_quality: action.payload.ring_1_diamond_quality,
+                ring_2_diamond_quality: action.payload.ring_2_diamond_quality,
+                ring_1_number_of_stones: action.payload.ring_1_number_of_stones,
+                ring_2_number_of_stones: action.payload.ring_2_number_of_stones,
+                ring_1_rows: action.payload.ring_1_rows,
+                ring_2_rows: action.payload.ring_2_rows,
+                ring_1_position: action.payload.ring_1_position,
+                ring_2_position: action.payload.ring_2_position,
+                ring_1_engraving_text: action.payload.ring_1_engraving_text,
+                ring_2_engraving_text: action.payload.ring_2_engraving_text,
+                ring_1_engraving_font: action.payload.ring_1_engraving_font,
+                ring_2_engraving_font: action.payload.ring_2_engraving_font,
+                ring_1_groove: action.payload.ring_1_groove,
+                ring_1_groove_width: action.payload.ring_1_groove_width,
+                ring_1_groove_surface: action.payload.ring_1_groove_surface,
+                ring_2_groove: action.payload.ring_2_groove,
+                ring_2_groove_width: action.payload.ring_2_groove_width,
+                ring_2_groove_surface: action.payload.ring_2_groove_surface,
+                ring_1_design_grooves_types: action.payload.ring_1_design_grooves_types,
+                ring_1_design_grooves_widths: action.payload.ring_1_design_grooves_widths,
+                ring_1_design_grooves_surfaces: action.payload.ring_1_design_grooves_surfaces,
+                ring_1_design_grooves_alignments: action.payload.ring_1_design_grooves_alignments,
+                ring_1_design_grooves_positions: action.payload.ring_1_design_grooves_positions,
+                ring_2_design_grooves_types: action.payload.ring_2_design_grooves_types,
+                ring_2_design_grooves_widths: action.payload.ring_2_design_grooves_widths,
+                ring_2_design_grooves_surfaces: action.payload.ring_2_design_grooves_surfaces,
+                ring_2_design_grooves_alignments: action.payload.ring_2_design_grooves_alignments,
+                ring_2_design_grooves_positions: action.payload.ring_2_design_grooves_positions
             };
         case SET_RING:
             localStorage.setItem('state', JSON.stringify({ ...state, ring: action.payload }));
@@ -770,6 +817,8 @@ export default function (state = initialState, action) {
         case DELETE_RING_2_ALL:
             localStorage.setItem('state', JSON.stringify({ ...state, ring_2_design_grooves_types: [], ring_2_design_grooves_widths: [], ring_2_design_grooves_surfaces: [], ring_2_design_grooves_alignments: [], ring_2_design_grooves_positions: [] }));
             return { ...state, ring_2_design_grooves_types: [], ring_2_design_grooves_widths: [], ring_2_design_grooves_surfaces: [], ring_2_design_grooves_alignments: [], ring_2_design_grooves_positions: [] };
+        case LOAD_FILE:
+            return { ...action.payload };
         default:
             localStorage.setItem('state', JSON.stringify(state));
             return state;

@@ -31,7 +31,6 @@ class DesignGroovesControls extends Component {
         }
     }
 
-
     handleDesignGroove = e => {
         const value = parseInt(e.target.id.replace('groove_', ''));
         if (this.props.data.ring === 'pair') { this.props.setRingPairDesignGrooveAdd(value); }

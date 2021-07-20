@@ -15,10 +15,12 @@ import Footer from '../components/Footer';
 
 export default function Home() {
     const { loading } = useSelector(state => state.ui);
+    console.log('LOADING: ' + loading);
+    const data = useSelector(state => state.data);
 
     useEffect(() => {
         localStorage.getItem('state') != null && console.log(JSON.parse(localStorage.getItem('state')));
-    });
+    }, []);
 
     return (
         <>
@@ -28,12 +30,10 @@ export default function Home() {
                 <BackgroundGirl />
 
                 <div className="row">
+                    {loading && <Loading />}
                     <div className="col-lg-6 col-xl-5 offset-xl-1">
-                        {loading && <Loading />}
-                        {!loading && <>
-                            <CanvasContainer />
-                            <PriceOrderContainer />
-                        </>}
+                        <CanvasContainer />
+                        <PriceOrderContainer />
                     </div>
                     <div className="col-lg-6 col-xl-5">
                         <SettingsContainer />

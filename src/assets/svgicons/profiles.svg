@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="profiles" xmlns="http://www.w3.org/2000/svg" xmlns:xlink= "http://www.w3.org/1999/xlink" viewBox="0 0 30 30" width="30" height="30">
+    <g>
+        <path d="M 26.0133 14.9375 L 26 22 L 4 22 L 4 15 C 4 15 5 10 15 10 C 25 10 26.0133 14.9375 26.0133 14.9375 ZM 29 14.9375 C 29 14.9375 27.0625 7 15 7 C 1.9375 7 1 15 1 15 L 1 25 L 29 25 L 29 14.9375 Z" className="shadow"></path>
+        <path d="M 26.0133 13.9375 L 26 21 L 4 21 L 4 14 C 4 14 5 9 15 9 C 25 9 26.0133 13.9375 26.0133 13.9375 ZM 29 13.9375 C 29 13.9375 28.0625 6 15 6 C 1.9375 6 1 14 1 14 L 1 24 L 29 24 L 29 13.9375 Z" className="icon"></path>
+        <path opacity="0.102" d="M 29 13.9375 C 29 13.9375 28.0625 6 15 6 C 1.9375 6 1 14 1 14 L 1 15 C 1 15 1.9375 7 15 7 C 28.0625 7 29 14.9375 29 14.9375 L 29 13.9375 ZM 26.0133 14.9375 L 26 21 L 4 21 L 4 22 L 26 22 L 26.0133 14.9375 Z" className="highlight"></path>
+    </g>
+</svg>

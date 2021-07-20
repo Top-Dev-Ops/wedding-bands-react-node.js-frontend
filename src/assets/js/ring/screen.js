@@ -1749,7 +1749,7 @@ class InitDisplay {
     registerConfig(ringConfig) {
         this.gDisplayView3d.loadConfiguration(ringConfig);
     }
-    init(viewId, width, ringConfig) {
+    init(viewId, width, ringConfig, callback) {
         this.ringCount = ringConfig.shapeRingScene.ringModels.length;
         InitDisplay.defaultConfig = ringConfig;
         var $ = jQuery;
@@ -1758,6 +1758,9 @@ class InitDisplay {
 
         this.gDisplayView3d.render($(viewId));
         this.gDisplayView3d.setSize(width, width);
+        if (callback) {
+            callback();
+        }
     }
     getSize() {
         return this.gDisplayView3d.getSize();
@@ -1768,13 +1771,16 @@ class InitDisplay {
     loadConfiguration(configuration) {
         this.gDisplayView3d.loadConfiguration(configuration);
     }
-    switchRing(ringConfig) {
+    switchRing(ringConfig, callback) {
         this.ringCount = ringConfig.shapeRingScene.ringModels.length;
 
         var webGLDisplay = this.gDisplayView3d.webGLDidplay;
         if (webGLDisplay != null) {
             this.registerConfig(ringConfig);
             webGLDisplay.loadTestConfig(ringConfig);
+        }
+        if (callback) {
+            callback();
         }
     }
     switchTestRing(index) {
