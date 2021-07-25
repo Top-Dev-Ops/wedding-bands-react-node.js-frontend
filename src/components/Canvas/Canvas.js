@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 // redux
 import { connect } from 'react-redux';
-import { stopHandView, stopFullScreen, stopLoading } from '../../redux/actions';
+import { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions } from '../../redux/actions';
 
 // three js engine for canvas rendering
 import { Metal, Groove, Diamond, RingConfig } from '../../assets/mainConfig';
@@ -29,12 +29,13 @@ class Canvas extends Component {
         this.ring_1_config = new RingConfig(parseInt(ring_1_profiles.charCodeAt(0) - 65), 2 + ring_1_width / 2, 1.2 + ring_1_height / 10, 45 + ring_1_size / 2, "I LOVE YOU");
         this.ring_2_config = new RingConfig(parseInt(ring_2_profiles.charCodeAt(0) - 65), 2 + ring_2_width / 2, 1.2 + ring_2_height / 10, 45 + ring_2_size / 2, "I LOVE YOU");
 
-        // this.serverUrl = "http://localhost:4000/";
+        this.serverUrl = "http://localhost:4000/";
         // this.serverUrl = "https://greatitteam.site:4000/";
-        this.serverUrl = "https://wedding-band-backend.herokuapp.com/";
+        // this.serverUrl = "https://wedding-band-backend.herokuapp.com/";
 
         this.gGrooveStart = 0;
         this.mousePt = { x: 0, y: 0 };
+        this.startPt = { x: 0, y: 0 };
         this.mouseCapture = false;
         this.captureIndex = 0;
 
@@ -279,11 +280,6 @@ class Canvas extends Component {
         return (posArray[distArray[0].id + 1] + posArray[distArray[0].id]) / 2;
     }
 
-    callback = () => {
-        this.props.stopLoading();
-        console.log('LOADED MODEL');
-    }
-
     // mouse events on groove canvas
     mouseDownCanvas = e => {
         document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseDetector);
@@ -301,6 +297,7 @@ class Canvas extends Component {
 
             if (Math.abs(e.layerX - x0) < 2) {
                 captured = true;
+                this.startPt = { x: e.clientX, y: e.clientY };
                 this.mouseCapture = true;
                 this.captureIndex = i;
                 document.getElementsByTagName('body')[0].style.cursor = 'col-resize';
@@ -312,11 +309,22 @@ class Canvas extends Component {
             document.getElementsByTagName('body')[0].style.cursor = 'grab';
         }
     }
-    mouseUpCanvas = () => {
+    mouseUpCanvas = (e) => {
+        const canvas = document.getElementById('grooveCanvas');
         document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseMove);
         document.getElementById('grooveCanvas').addEventListener('mousemove', this.grooveMouseDetector);
         if (this.mouseCapture) {
             this.mouseCapture = false;
+
+            const dx = (e.clientX - this.startPt.x) / 10;
+            if (this.props.data.ring === 'pair') {
+                this.props.updateRingPairDesignGroovesPositions({ index: this.props.data.ring_design_grooves_index, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.props.data.ring_design_grooves_index] + dx).toFixed(1)) });
+            } else if (this.props.data.ring === 'ring_1') {
+                this.props.updateRing1DesignGroovesPositions({ index: this.props.data.ring_design_grooves_index, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.props.data.ring_design_grooves_index] + dx).toFixed(1)) });
+            } else {
+                this.props.updateRing2DesignGroovesPositions({ index: this.props.data.ring_design_grooves_index, position: parseFloat((this.props.data.ring_2_design_grooves_positions[this.props.data.ring_design_grooves_index] + dx).toFixed(1)) });
+            }
+
             this.ring_1_config.displayGroove(this.gGrooveStart, this.captureIndex);
             let sendData = {
                 visibility: [!this.props.data.ring_1_disabled, !this.props.data.ring_2_disabled],
@@ -328,10 +336,9 @@ class Canvas extends Component {
                 groove: [this.ring_1_config.grooves.toConfig(), this.ring_2_config.grooves.toConfig()],     // ring grooves (grooves/edges tab)
                 edge: [this.ring_1_config.edges.toConfig(), this.ring_2_config.edges.toConfig()],           // ring edges (grooves/edges tab)
                 diamond: [this.ring_1_config.diamond.toConfig(), this.ring_2_config.diamond.toConfig()],    // ring diamonds (diamonds tab)
-                txt: [this.props.data.ring_1_engraving_text, this.props.data.ring_2_engraving_text],         // ring text (engraving tab) - (18k, 18k)
+                txt: [this.props.data.ring_1_engraving_text, this.props.data.ring_2_engraving_text],        // ring text (engraving tab) - (18k, 18k)
                 engrave: [this.ring_1_config.engrave.toConfig(), this.ring_2_config.engrave.toConfig()]
             };
-            console.log(sendData);
             $.ajax({
                 type: "post",
                 url: `${this.serverUrl}getJson`,
@@ -341,7 +348,7 @@ class Canvas extends Component {
                 success: (res) => {
                     let { innerWidth: width, innerHeight: height } = window;
                     width = width > 1500 ? 600 : width > 992 ? parseInt(width * 0.3) : width > 600 ? 600 : width * 0.8;
-                    InitDisplay.get_instance().switchRing(res.json, this.callback);
+                    InitDisplay.get_instance().switchRing(res.json, () => this.props.stopLoading());
                 }
             });
         }
@@ -349,13 +356,16 @@ class Canvas extends Component {
     grooveMouseMove = e => {
         const canvas = document.getElementById('grooveCanvas');
         if (this.mouseCapture) {
+            // moves design grooves horizontally
             let groove = this.ring_1_config.grooves.grooveArray[this.captureIndex];
             const dx = e.clientX - this.mousePt.x;
             groove.position += dx / canvas.width;
+
             this.ring_1_config.grooves.grooveArray[this.captureIndex].position += dx / canvas.width;
             this.mousePt = { x: e.clientX, y: e.clientY };
             this.ring_1_config.displayGroove(this.gGrooveStart, this.captureIndex);
         } else {
+            // moves design grooves vertically
             const H = canvas.height - 20;
             const dy = e.clientY - this.mousePt.y;
             this.gGrooveStart += 180 * dy / H;
@@ -419,7 +429,19 @@ class Canvas extends Component {
             ring_2_right_width,
             ring_2_right_surface,
             ring_1_design_grooves_types,
-            ring_2_design_grooves_types
+            ring_2_design_grooves_types,
+            ring_1_design_grooves_widths,
+            ring_2_design_grooves_widths,
+            ring_1_design_grooves_surfaces,
+            ring_2_design_grooves_surfaces,
+            ring_1_design_grooves_positions,
+            ring_2_design_grooves_positions,
+            ring_1_design_grooves_sines,
+            ring_2_design_grooves_sines,
+            ring_1_design_grooves_alignments,
+            ring_2_design_grooves_alignments,
+            ring_1_design_grooves_sine_heights,
+            ring_2_design_grooves_sine_heights,
         } = this.props.data;
 
         let metal = null;
@@ -501,6 +523,10 @@ class Canvas extends Component {
         }
 
         /* grooves/edges */
+        const grooveTypes = ['u', 'v', 'rect'];
+        const grooveWidths = [0.35, 0.5, 0.8, 1.0, 1.20, 1.5, 1.8, 2.0];
+        const sines = Array.from({ length: 10 }, (_, i) => i + 1);
+        const sineHeights = [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5];
         // ring 1 design grooves
         this.ring_1_config.grooves.deleteAll();
         for (let i = 0; i < ring_1_design_grooves_types.length; i++) {
@@ -508,9 +534,18 @@ class Canvas extends Component {
 
             groove = new Groove();
             groove.separation = false;
-            groove.type = 'v';
-            groove.position = this.getPosCandidate(this.ring_1_config.grooves);
-            groove.width = 0.35;
+            groove.type = grooveTypes[ring_1_design_grooves_types[i]];
+
+            var newPos = ring_1_design_grooves_positions[i];
+            groove.position = newPos / this.ring_1_config.width;
+
+            groove.width = grooveWidths[ring_1_design_grooves_widths[i]];
+            groove.surface = surfaceArray[ring_1_design_grooves_surfaces[i]];
+
+            if (ring_1_design_grooves_alignments[i] === 1) {
+                groove.sine = sines[ring_1_design_grooves_sines[i]];
+                groove.sineH = sineHeights[ring_1_design_grooves_sine_heights[i]];
+            }
             this.ring_1_config.grooves.add(groove);
         }
         // ring 2 design grooves
@@ -520,9 +555,19 @@ class Canvas extends Component {
 
             groove = new Groove();
             groove.separation = false;
-            groove.type = 'v';
-            groove.position = this.getPosCandidate(this.ring_2_config.grooves);
-            groove.width = 0.35;
+            groove.type = grooveTypes[ring_2_design_grooves_types[i]];
+            // groove.position = this.getPosCandidate(this.ring_2_config.grooves);
+
+            var newPos = ring_2_design_grooves_positions[i];
+            groove.position = newPos / this.ring_2_config;
+
+            groove.width = grooveWidths[ring_2_design_grooves_widths[i]];
+            groove.surface = surfaceArray[ring_2_design_grooves_surfaces[i]];
+
+            if (ring_2_design_grooves_alignments[i] === 1) {
+                groove.sine = sines[ring_2_design_grooves_sines[i]];
+                groove.sineH = sineHeights[ring_2_design_grooves_sine_heights[i]];
+            }
             this.ring_2_config.grooves.add(groove);
         }
         setTimeout(() => {
@@ -665,9 +710,9 @@ class Canvas extends Component {
                 success: (res) => {
                     let { innerWidth: width, innerHeight: height } = window;
                     width = width > 1500 ? 600 : width > 992 ? parseInt(width * 0.3) : width > 600 ? 600 : width * 0.8;
-                    if (param === 'init') { InitDisplay.get_instance().init('#container', width, res.json, this.callback); }
+                    if (param === 'init') { InitDisplay.get_instance().init('#container', width, res.json, () => this.props.stopLoading()); }
                     else {
-                        InitDisplay.get_instance().switchRing(res.json, this.callback);
+                        InitDisplay.get_instance().switchRing(res.json, () => this.props.stopLoading());
                     }
                 }
             });
@@ -713,11 +758,17 @@ class Canvas extends Component {
 
     /* updates ring in canvas when redux state changes (user interaction) */
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.checkIfReduxDataStateChanged(prevProps.data, this.props.data)) { this.testRingConfigurator('switch'); }
+        // if (this.checkIfReduxDataStateChanged(prevProps.data, this.props.data)) { this.testRingConfigurator('switch'); }
         if (this.props.ui.hand_view) { this.testRingConfigurator('handview'); }
         if (this.props.ui.full_screen) {
             this.testRingConfigurator('fullscreen');
             this.props.stopFullScreen();
+        }
+        // updates ring when changing redux state
+        if (prevProps.data.wizard !== this.props.data.wizard || prevProps.data.ring !== this.props.data.ring) {
+            return;
+        } else if (prevProps.data !== this.props.data) {
+            this.testRingConfigurator('switch');
         }
     }
 
@@ -742,6 +793,6 @@ Canvas.propTypes = {
 };
 
 const mapStateToProps = (state) => ({ data: state.data, ui: state.ui });
-const mapActionsToProps = { stopHandView, stopFullScreen, stopLoading };
+const mapActionsToProps = { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions };
 
 export default connect(mapStateToProps, mapActionsToProps)(Canvas);

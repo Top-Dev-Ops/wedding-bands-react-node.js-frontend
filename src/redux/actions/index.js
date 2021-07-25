@@ -135,6 +135,18 @@ import {
     SET_RING_PAIR_DESIGN_GROOVE_ADD,
     SET_RING_1_DESIGN_GROOVE_ADD,
     SET_RING_2_DESIGN_GROOVE_ADD,
+    SET_RING_PAIR_DESIGN_GROOVES_SINE,
+    SET_RING_PAIR_DESIGN_GROOVES_SINE_HEIGHT,
+    SET_RING_1_DESIGN_GROOVES_SINE,
+    SET_RING_1_DESIGN_GROOVES_SINE_HEIGHT,
+    SET_RING_2_DESIGN_GROOVES_SINE,
+    SET_RING_2_DESIGN_GROOVES_SINE_HEIGHT,
+    UPDATE_RING_PAIR_DESIGN_GROOVES_SINE,
+    UPDATE_RING_PAIR_DESIGN_GROOVES_SINE_HEIGHT,
+    UPDATE_RING_1_DESIGN_GROOVES_SINE,
+    UPDATE_RING_1_DESIGN_GROOVES_SINE_HEIGHT,
+    UPDATE_RING_2_DESIGN_GROOVES_SINE,
+    UPDATE_RING_2_DESIGN_GROOVES_SINE_HEIGHT,
     UPDATE_RING_PAIR_DESIGN_GROOVES_TYPES,
     UPDATE_RING_PAIR_DESIGN_GROOVES_WIDTHS,
     UPDATE_RING_PAIR_DESIGN_GROOVES_SURFACES,
@@ -150,6 +162,7 @@ import {
     UPDATE_RING_2_DESIGN_GROOVES_SURFACES,
     UPDATE_RING_2_DESIGN_GROOVES_ALIGNMENTS,
     UPDATE_RING_2_DESIGN_GROOVES_POSITIONS,
+    SET_RING_DESIGN_GROOVES_INDEX,
     DELETE_RING_PAIR_DESIGN_GROOVE,
     DELETE_RING_1_DESIGN_GROOVE,
     DELETE_RING_2_DESIGN_GROOVE,
@@ -445,6 +458,18 @@ const setRingPairDesignGroovesWidths = (types) => dispatch => { dispatch({ type:
 const setRingPairDesignGroovesSurfaces = (types) => dispatch => { dispatch({ type: SET_RING_PAIR_DESIGN_GROOVES_SURFACES, payload: types }); }
 const setRingPairDesignGroovesAlignments = (types) => dispatch => { dispatch({ type: SET_RING_PAIR_DESIGN_GROOVES_ALIGNMENTS, payload: types }); }
 const setRingPairDesignGroovesPositions = (types) => dispatch => { dispatch({ type: SET_RING_PAIR_DESIGN_GROOVES_POSITIONS, payload: types }); }
+const setRingPairDesignGroovesSine = (sine) => dispatch => { dispatch({ type: SET_RING_PAIR_DESIGN_GROOVES_SINE, payload: sine }); }
+const setRing1DesignGroovesSine = (sine) => dispatch => { dispatch({ type: SET_RING_1_DESIGN_GROOVES_SINE, payload: sine }); }
+const setRing2DesignGroovesSine = (sine) => dispatch => { dispatch({ type: SET_RING_2_DESIGN_GROOVES_SINE, payload: sine }); }
+const setRingPairDesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: SET_RING_PAIR_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
+const setRing1DesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: SET_RING_1_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
+const setRing2DesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: SET_RING_2_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
+const updateRingPairDesignGroovesSine = (sine) => dispatch => { dispatch({ type: UPDATE_RING_PAIR_DESIGN_GROOVES_SINE, payload: sine }); }
+const updateRing1DesignGroovesSine = (sine) => dispatch => { dispatch({ type: UPDATE_RING_1_DESIGN_GROOVES_SINE, payload: sine }); }
+const updateRing2DesignGroovesSine = (sine) => dispatch => { dispatch({ type: UPDATE_RING_2_DESIGN_GROOVES_SINE, payload: sine }); }
+const updateRingPairDesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: UPDATE_RING_PAIR_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
+const updateRing1DesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: UPDATE_RING_1_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
+const updateRing2DesignGroovesSineHeight = (sine) => dispatch => { dispatch({ type: UPDATE_RING_2_DESIGN_GROOVES_SINE_HEIGHT, payload: sine }); }
 const setRing1DesignGroovesTypes = (types) => dispatch => { dispatch({ type: SET_RING_1_DESIGN_GROOVES_TYPES, payload: types }); }
 const setRing1DesignGroovesWidths = (types) => dispatch => { dispatch({ type: SET_RING_1_DESIGN_GROOVES_WIDTHS, payload: types }); }
 const setRing1DesignGroovesSurfaces = (types) => dispatch => { dispatch({ type: SET_RING_1_DESIGN_GROOVES_SURFACES, payload: types }); }
@@ -473,6 +498,7 @@ const updateRing2DesignGroovesWidths = (width) => dispatch => { dispatch({ type:
 const updateRing2DesignGroovesSurfaces = (surface) => dispatch => { dispatch({ type: UPDATE_RING_2_DESIGN_GROOVES_SURFACES, payload: surface }); }
 const updateRing2DesignGroovesAlignments = (alignment) => dispatch => { dispatch({ type: UPDATE_RING_2_DESIGN_GROOVES_ALIGNMENTS, payload: alignment }); }
 const updateRing2DesignGroovesPositions = (position) => dispatch => { dispatch({ type: UPDATE_RING_2_DESIGN_GROOVES_POSITIONS, payload: position }); }
+const setRingDesignGroovesIndex = (index) => dispatch => { dispatch({ type: SET_RING_DESIGN_GROOVES_INDEX, payload: index }); }
 const deleteRingPairDesignGroove = (del) => dispatch => { dispatch({ type: DELETE_RING_PAIR_DESIGN_GROOVE, payload: del }); }
 const deleteRing1DesignGroove = (del) => dispatch => { dispatch({ type: DELETE_RING_1_DESIGN_GROOVE, payload: del }); }
 const deleteRing2DesignGroove = (del) => dispatch => { dispatch({ type: DELETE_RING_2_DESIGN_GROOVE, payload: del }); }
@@ -695,5 +721,18 @@ export {
     deleteRingPairAll,
     deleteRing1All,
     deleteRing2All,
+    setRingPairDesignGroovesSine,
+    setRing1DesignGroovesSine,
+    setRing2DesignGroovesSine,
+    setRingPairDesignGroovesSineHeight,
+    setRing1DesignGroovesSineHeight,
+    setRing2DesignGroovesSineHeight,
+    updateRingPairDesignGroovesSine,
+    updateRingPairDesignGroovesSineHeight,
+    updateRing1DesignGroovesSine,
+    updateRing2DesignGroovesSine,
+    updateRing1DesignGroovesSineHeight,
+    updateRing2DesignGroovesSineHeight,
+    setRingDesignGroovesIndex,
     loadFile,
 };

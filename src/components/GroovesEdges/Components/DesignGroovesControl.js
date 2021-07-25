@@ -39,12 +39,20 @@ import {
     updateRing2DesignGroovesSurfaces,
     updateRing2DesignGroovesAlignments,
     updateRing2DesignGroovesPositions,
+    setRingPairDesignGroovesSine,
+    setRing1DesignGroovesSine,
+    setRing2DesignGroovesSine,
+    setRingPairDesignGroovesSineHeight,
+    setRing1DesignGroovesSineHeight,
+    setRing2DesignGroovesSineHeight,
+    setRingDesignGroovesIndex,
     deleteRingPairDesignGroove,
     deleteRing1DesignGroove,
     deleteRing2DesignGroove,
     deleteRingPairAll,
     deleteRing1All,
-    deleteRing2All
+    deleteRing2All,
+
 } from '../../../redux/actions';
 
 import { grooves, design_grooves } from '../../../assets/variables';
@@ -58,89 +66,114 @@ class DesignGroovesControl extends Component {
             groove_tab: 0,
             width: 0,
             surface: 0,
-            position: 1.17,
+            position: 2.5,
             jointTypeModal: false,
             mouse_capture: false,
             mousePt: {},
-            gGrooveStart: 0
+            gGrooveStart: 0,
+            alignment: 0,
+            show_waves: false,
+            show_height_wave: false,
+            sine: 0,
+            sine_height: 0
         }
-
-        this.grooveCanvas = React.createRef();
     }
 
     componentDidMount() {
         window.addEventListener('mousedown', this.clickWindow);
     }
-    
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.data.ring_1_config != this.props.data.ring_1_config || prevProps.data.ring_2_config != this.props.data.ring_2_config) {
-            this.ring_1_config = this.props.data.ring_1_config;
-            this.ring_2_config = this.props.data.ring_2_config;
 
-            this.props.data.wizard === 'grooves' && (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') && this.props.data.ring_1_design_grooves_types.length > 0 && this.ring_1_config.displayGroove(45);
-            this.props.data.wizard === 'grooves' && this.props.data.ring === 'ring_2' && this.props.data.ring_2_design_grooves_types.length > 0 && this.ring_2_config.displayGroove(45);
-        }
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('mousedown', this.clickWindow);
-    }
+    componentWillUnmount() { window.removeEventListener('mousedown', this.clickWindow); }
 
     // click event on window outside controls
-    clickWindow = e => { this.setState({ show_width: false, show_surface: false, jointTypeModal: false }); }
+    clickWindow = e => {
+        if (e.target.id.includes('width_')) {
+            this.setState({ width: parseInt(e.target.id.replace('width_', '')) });
+            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
+            else { this.props.updateRing2DesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
+        } else if (e.target.id.includes('surface_')) {
+            this.setState({ surface: parseInt(e.target.id.replace('surface_', '')), show_surface: false });
+            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
+            else { this.props.updateRing2DesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
+        } else if (e.target.id.includes('waves_')) {
+            this.setState({ sine: parseInt(e.target.id.replace('waves_', '')), show_waves: false });
+            if (this.props.data.ring === 'pair') { this.props.setRingPairDesignGroovesSine({ index: this.state.groove_tab, sine: parseInt(e.target.id.replace('waves_', '')) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.setRing1DesignGroovesSine({ index: this.state.groove_tab, sine: parseInt(e.target.id.replace('waves_', '')) }); }
+            else { this.props.setRing2DesignGroovesSine({ index: this.state.groove_tab, sine: parseInt(e.target.id.replace('waves_', '')) }); }
+        } else if (e.target.id.includes('height_')) {
+            this.setState({ sine_height: parseInt(e.target.id.replace('height_', '')) });
+            if (this.props.data.ring === 'pair') { this.props.setRingPairDesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: parseInt(e.target.id.replace('height_', '')) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.setRing1DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: parseInt(e.target.id.replace('height_', '')) }); }
+            else { this.props.setRing2DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: parseInt(e.target.id.replace('height_', '')) }); }
+        } else if (e.target.id.includes('stepper_minus')) {
+            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
+            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_2_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
+        } else if (e.target.id.includes('stepper_plus')) {
+            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] + 0.1).toFixed(1)) }); }
+            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] + 0.1).toFixed(1)) }); }
+            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: this.props.data.ring_2_design_grooves_positions[this.state.groove_tab] + 0.1 }); }
+        } else if (e.target.id.includes('delete_this')) {
+            if (this.props.data.ring === 'pair') { this.props.deleteRingPairDesignGroove(this.state.groove_tab); }
+            else if (this.props.data.ring === 'ring_1') { this.props.deleteRing1DesignGroove(this.state.groove_tab); }
+            else { this.props.deleteRing2DesignGroove(this.state.groove_tab); }
+            this.setState({ groove_tab: 0 });
+        } else if (e.target.id.includes('delete_all')) {
+            if (this.props.data.ring === 'pair') { this.props.deleteRingPairAll(); }
+            else if (this.props.data.ring === 'ring_1') { this.props.deleteRing1All(); }
+            else { this.props.deleteRing2All(); }
+        } else if (e.target.id.includes('groove_tab_')) {
+            this.setState({ groove_tab: parseInt(e.target.id.replace('groove_tab_', '')) });
+            this.props.setRingDesignGroovesIndex(parseInt(e.target.id.replace('groove_tab_', '')));
+        }
+        this.setState({ show_width: false, show_surface: false, jointTypeModal: false, show_waves: false, show_height_wave: false });
+    }
 
-    // shows / hides width & surface select options
+    // shows/hides width & surface select options
     showWidth = () => { this.setState({ show_width: !this.state.show_width }); }
     showSurface = () => { this.setState({ show_surface: !this.state.show_surface }); }
+    showWaves = () => { this.setState({ show_waves: !this.state.show_waves }); }
+    showHeightWave = () => { this.setState({ show_height_wave: !this.state.show_height_wave }); }
 
-    // changes groove tabs of 1, 2, 3 ...
-    handleGrooveTab = e => { this.setState({ groove_tab: parseInt(e.target.id.replace('groove_tab_', '')) }); }
     handleAdd = () => {
         if (this.props.data.ring === 'pair') { this.props.setRingPairDesignGrooveAdd(0); }
         else if (this.props.data.ring === 'ring_1') { this.props.setRing1DesignGrooveAdd(0); }
         else { this.props.setRing2DesignGrooveAdd(0); }
-        this.props.updateRingPairDesignGroovesTypes({ index: 0, type: 'v' });
     };
-
-    // stores values of width, surface, alignment & position in redux store
-    handleWidth = e => {
-        this.setState({ width: parseInt(e.target.id.replace('width_', '')), show_width: false });
-        if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
-        else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
-        else { this.props.updateRing2DesignGroovesWidths({ index: this.state.groove_tab, width: parseInt(e.target.id.replace('width_', '')) }); }
-    }
-    handleSurface = e => {
-        this.setState({ surface: parseInt(e.target.id.replace('surface_', '')), show_surface: false });
-        if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
-        else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
-        else { this.props.updateRing2DesignGroovesSurfaces({ index: this.state.groove_tab, surface: parseInt(e.target.id.replace('surface_', '')) }); }
-    }
-    handleStepper = e => {
-        if (e.target.id === 'stepper_minus') {
-            const value = parseFloat((this.state.position - 0.01).toFixed(2));
-            this.setState({ position: value });
-            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
-            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
-            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
+    // changes position in input
+    handlePosition = e => { this.setState({ position: parseFloat(e.target.value) }); }
+    handleAlignment = index => {
+        this.setState({ alignment: index });
+        if (index === 0) {
+            if (this.props.data.ring === 'pair') {
+                this.props.updateRingPairDesignGroovesAlignments({ index: this.state.groove_tab, alignment: 0 });
+                this.props.setRingPairDesignGroovesSine({ index: this.state.groove_tab, sine: -1 });
+                this.props.setRingPairDesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: -1 });
+            } else if (this.props.data.ring === 'ring_1') {
+                this.props.updateRing1DesignGroovesAlignments({ index: this.state.groove_tab, alignment: 0 });
+                this.props.setRing1DesignGroovesSine({ index: this.state.groove_tab, sine: -1 });
+                this.props.setRing1DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: -1 });
+            } else {
+                this.props.updateRing2DesignGroovesAlignments({ index: this.state.groove_tab, alignment: 0 });
+                this.props.setRing2DesignGroovesSine({ index: this.state.groove_tab, sine: -1 });
+                this.props.setRing2DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: -1 });
+            }
         } else {
-            const value = parseFloat((this.state.position + 0.01).toFixed(2));
-            this.setState({ position: value });
-            if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
-            else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
-            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: value }); }
-        }
-    }
-    handlePosition = e => { }
-    handleDelete = e => {
-        this.setState({ groove_tab: 0 });
-        if (e.target.id === 'delete_this') {
-            if (this.props.data.ring === 'pair') { this.props.deleteRingPairDesignGroove(this.state.groove_tab); }
-            else if (this.props.data.ring === 'ring_1') { this.props.deleteRing1DesignGroove(this.state.groove_tab); }
-            else { this.props.deleteRing2DesignGroove(this.state.groove_tab); }
-        } else {
-            if (this.props.data.ring === 'pair') { this.props.deleteRingPairAll(); }
-            else if (this.props.data.ring === 'ring_1') { this.props.deleteRing1All(); }
-            else { this.props.deleteRing2All(); }
+            if (this.props.data.ring === 'pair') {
+                this.props.updateRingPairDesignGroovesAlignments({ index: this.state.groove_tab, alignment: 1 });
+                this.props.setRingPairDesignGroovesSine({ index: this.state.groove_tab, sine: 0 });
+                this.props.setRingPairDesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: 0 });
+            } else if (this.props.data.ring === 'ring_1') {
+                this.props.updateRing1DesignGroovesAlignments({ index: this.state.groove_tab, alignment: 1 });
+                this.props.setRing1DesignGroovesSine({ index: this.state.groove_tab, sine: 0 });
+                this.props.setRing1DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: 0 });
+            } else {
+                this.props.updateRing2DesignGroovesAlignments({ index: this.state.groove_tab, alignment: 1 });
+                this.props.setRing2DesignGroovesSine({ index: this.state.groove_tab, sine: 0 });
+                this.props.setRing2DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: 0 });
+            }
         }
     }
 
@@ -151,58 +184,58 @@ class DesignGroovesControl extends Component {
     }
 
     render() {
-        const { show_width, show_surface, groove_tab } = this.state;
-        const { ring, ring_1_design_grooves_types, ring_1_design_grooves_widths, ring_1_design_grooves_surfaces, ring_1_design_grooves_positions, ring_2_design_grooves_types, ring_2_design_grooves_widths, ring_2_design_grooves_surfaces, ring_2_design_grooves_positions } = this.props.data;
+        const { show_width, show_surface, groove_tab, show_waves, show_height_wave, sine, sine_height, position } = this.state;
+        const { ring, ring_1_design_grooves_types, ring_1_design_grooves_widths, ring_1_design_grooves_surfaces, ring_1_design_grooves_positions, ring_2_design_grooves_types, ring_2_design_grooves_widths, ring_2_design_grooves_surfaces, ring_2_design_grooves_positions, ring_1_design_grooves_alignments, ring_2_design_grooves_alignments } = this.props.data;
 
         const index_active = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_types[groove_tab] : ring_2_design_grooves_types[groove_tab];
         const width = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_widths[groove_tab] : ring_2_design_grooves_widths[groove_tab];
         const surface = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_surfaces[groove_tab] : ring_2_design_grooves_surfaces[groove_tab];
-        const position = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_positions[groove_tab] : ring_2_design_grooves_positions[groove_tab];
+        const _position = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_positions[groove_tab] : ring_2_design_grooves_positions[groove_tab];
+        const alignment = ring === 'pair' || ring === 'ring_1' ? ring_1_design_grooves_alignments[groove_tab] : ring_2_design_grooves_alignments[groove_tab];
 
         let grooves_tabs = ring === 'pair' || ring === 'ring_1' ? Array.from(Array(ring_1_design_grooves_types.length).keys()) : Array.from(Array(ring_2_design_grooves_types.length).keys());
         grooves_tabs = grooves_tabs.map((item, index) => {
-            return <li key={index} id={'groove_tab_' + index} className={groove_tab == index ? 'option active' : 'option'} onClick={this.handleGrooveTab}>
+            return <li key={index} id={'groove_tab_' + index} className={groove_tab == index ? 'option active' : 'option'}>
                 <span id={'groove_tab_' + index} className="option-span">{item + 1}</span>
             </li>
         });
 
         const widths = ['0.35', '0.50', '1.00'];
         const _widths = ['0.35', '0.50', '1.00'].map((item, index) => {
-            return <li id={'width_' + index} key={index} className={index == width ? 'active' : ''} onClick={this.handleWidth}>
+            return <li id={'width_' + index} key={index} className={index == width ? 'active' : ''}>
                 <span id={'width_' + index} className="option-label">{item}</span>
             </li>
         });
         const surfaces = ['Polished', 'Fine matt'];
         const _surfaces = ['Polished', 'Fine matt'].map((item, index) => {
-            return <li id={'surface_' + index} key={index} className={index == surface ? 'active' : ''} onClick={this.handleSurface}>
+            return <li id={'surface_' + index} key={index} className={index == surface ? 'active' : ''}>
                 <span id={'surface_' + index} className="option-label">{item}</span>
             </li>
         });
         const alignments = ['straight', 'wave'].map((item, index) => {
-            return <li key={index} className={index === 1 ? 'disabled' : undefined}>
+            return <li key={index} id={'alignment_' + index} className={index === alignment ? 'active' : undefined} onClick={index => this.handleAlignment(index)}>
                 <span className="option-image">
                     {index == 0 ?
-                        <svg id="groove-type-vertical" viewBox="0 0 18 25" width="18" height="25">
-                            <g id="a">
-                                <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" strokeWidth="1" stroke="currentColor" fill="none"></rect>
-                                <rect width="2" height="19" transform="translate(8 3)" fill="currentColor"></rect>
+                        <svg id={'alignment_' + index} viewBox="0 0 18 25" width="18" height="25">
+                            <g id={'alignment_' + index}>
+                                <rect id={'alignment_' + index} x="0.5" y="0.5" width="17" height="24" rx="1.5" strokeWidth="1" stroke="currentColor" fill="none"></rect>
+                                <rect id={'alignment_' + index} width="2" height="19" transform="translate(8 3)" fill="currentColor"></rect>
                             </g>
                         </svg>
-                        : <svg id="groove-type-wave" viewBox="0 0 18 25" width="18" height="25">
-                            <g id="b">
-                                <g fill="none" stroke="currentColor" strokeWidth="1">
-                                    <rect width="18" height="25" rx="2" stroke="none"></rect>
-                                    <rect x="0.5" y="0.5" width="17" height="24" rx="1.5" fill="none"></rect>
+                        : <svg id={'alignment_' + index} viewBox="0 0 18 25" width="18" height="25">
+                            <g id={'alignment_' + index}>
+                                <g id={'alignment_' + index} fill="none" stroke="currentColor" strokeWidth="1">
+                                    <rect id={'alignment_' + index} width="18" height="25" rx="2" stroke="none"></rect>
+                                    <rect id={'alignment_' + index} x="0.5" y="0.5" width="17" height="24" rx="1.5" fill="none"></rect>
                                 </g>
-                                <path d="M531.031,346.515s4.219.919,4.219,4.571-5.462,3.721-5.462,7.68,4.243,4.267,4.243,4.267" transform="translate(-523.291 -342.43)" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path>
+                                <path id={'alignment_' + index} d="M531.031,346.515s4.219.919,4.219,4.571-5.462,3.721-5.462,7.68,4.243,4.267,4.243,4.267" transform="translate(-523.291 -342.43)" fill="none" stroke="currentColor" strokeLinecap="round" strokeWidth="2"></path>
                             </g>
                         </svg>
                     }
                 </span>
-                <span className="option-label">{item}</span>
+                <span id={'alignment_' + index} className="option-label">{item}</span>
             </li>
         });
-
         const joins = ['U groove', 'V groove', 'Right-angled grooves'].map((item, index) => {
             return <li key={index} id={'groove_' + index} className={index_active == index ? 'option active' : 'option'} onClick={this.handleDesignGroove}>
                 <span id={'groove_' + index} className="option-img" style={{ backgroundImage: `url(${grooves[index]})` }}></span>
@@ -215,6 +248,18 @@ class DesignGroovesControl extends Component {
                 <span className="option-span">{item}</span>
             </li>
         });
+        const waves = Array.from({ length: 10 }, (_, i) => i + 1);
+        const _waves = waves.map((item, index) => {
+            return <li id={'waves_' + index} key={index} className={index === sine ? 'active' : ''}>
+                <span id={'waves_' + index} className="option-label">{item}</span>
+            </li>
+        });
+        const heights = [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5];
+        const _heights = heights.map((item, index) => {
+            return <li id={'height_' + index} key={index} className={index === sine_height ? 'active' : ''}>
+                <span id={'height_' + index} className="option-label">{item}</span>
+            </li>
+        });
 
         return (
             <>
@@ -224,7 +269,7 @@ class DesignGroovesControl extends Component {
 
                     {/* groove tabs pane with 1, 2 & 3 */}
                     <div className="design-grooves-tabs">
-                        {/* tabs 1, 2, 3 */}
+                        {/* tabs 1, 2, 3... */}
                         <div className="design-grooves-tab">
                             {/* tabs */}
                             <ul> {grooves_tabs} </ul>
@@ -304,12 +349,59 @@ class DesignGroovesControl extends Component {
                                 </div>
                             </div>
 
+                            {alignment === 1 &&
+                                <>
+                                    {/* number of waves select */}
+                                    <div className="design-grooves-select">
+                                        <div className="diamond-quality row">
+                                            <label className="col-3">Number of waves</label>
+                                            <div className="diamond-size-select col-9">
+                                                {/* select */}
+                                                <div className="select-toggle" onClick={this.showWaves}>
+                                                    <span className="option-label" onClick={this.showWaves}>{waves[sine]}</span>
+                                                    <i icon="dropdown-arrow" className="svg-icon svg-icon-dropdown-arrow">
+                                                        <svg id="dropdown-arrow" viewBox="0 0 18 18" width="18" height="18" onClick={this.showWaves}>
+                                                            <path d="M 3 7.3266 L 9 13 L 15 7.3507 L 13.7368 6 L 9 10.5773 L 4.2632 6 L 3 7.3266 Z"></path>
+                                                        </svg>
+                                                    </i>
+                                                </div>
+                                                {/* select options */}
+                                                <div className="select-options" style={{ display: `${show_waves ? 'block' : 'none'}` }}>
+                                                    <ul> {_waves} </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* height of the wave select */}
+                                    <div className="design-grooves-select">
+                                        <div className="diamond-quality row">
+                                            <label className="col-3">Height of the wave</label>
+                                            <div className="diamond-size-select col-9">
+                                                {/* select */}
+                                                <div className="select-toggle" onClick={this.showHeightWave}>
+                                                    <span className="option-label" onClick={this.showHeightWave}>{heights[sine_height]}</span>
+                                                    <i icon="dropdown-arrow" className="svg-icon svg-icon-dropdown-arrow">
+                                                        <svg id="dropdown-arrow" viewBox="0 0 18 18" width="18" height="18" onClick={this.showHeightWave}>
+                                                            <path d="M 3 7.3266 L 9 13 L 15 7.3507 L 13.7368 6 L 9 10.5773 L 4.2632 6 L 3 7.3266 Z"></path>
+                                                        </svg>
+                                                    </i>
+                                                </div>
+                                                {/* select options */}
+                                                <div className="select-options" style={{ display: `${show_height_wave ? 'block' : 'none'}` }}>
+                                                    <ul> {_heights} </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            }
+
                             {/* position select */}
                             <div className="design-grooves-select">
                                 <div className="diamond-quality row">
                                     <label className="col-3">Position</label>
                                     <div className="col-9 d-flex">
-                                        <input className="form-control" type="text" placeholder="" value={position.toFixed(2)} onChange={this.handlePosition} />
+                                        <input className="form-control" type="text" placeholder="" value={_position} onChange={this.handlePosition} maxLength="4" />
                                         <div className="d-flex">
                                             <div className="minus" id="stepper_minus" onClick={this.handleStepper}>
                                                 <i id="stepper_minus" icon="stepper-minus" className="svg-icon svg-icon-stepper-minus">
@@ -335,7 +427,7 @@ class DesignGroovesControl extends Component {
 
                             {/* delete this joint button */}
                             <div className="grooves-selector-delete">
-                                <button className="btn btn-transparent btn-delete" id="delete_this" onClick={this.handleDelete}>
+                                <button className="btn btn-transparent btn-delete" id="delete_this">
                                     <span id="delete_this"> x </span> Delete this joint
                                 </button>
                             </div>
@@ -393,6 +485,53 @@ DesignGroovesControl.propTypes = {
 }
 
 const mapStateToProps = (state) => ({ ui: state.ui, data: state.data });
-const mapActionsToProps = { setRingPairDesignGrooveAdd, setRing1DesignGrooveAdd, setRing2DesignGrooveAdd, setRingPairDesignGroovesTypes, setRingPairDesignGroovesWidths, setRingPairDesignGroovesSurfaces, setRingPairDesignGroovesAlignments, setRingPairDesignGroovesPositions, setRing1DesignGroovesTypes, setRing1DesignGroovesWidths, setRing1DesignGroovesSurfaces, setRing1DesignGroovesAlignments, setRing1DesignGroovesPositions, setRing2DesignGroovesTypes, setRing2DesignGroovesWidths, setRing2DesignGroovesSurfaces, setRing2DesignGroovesAlignments, setRing2DesignGroovesPositions, updateRingPairDesignGroovesTypes, updateRingPairDesignGroovesWidths, updateRingPairDesignGroovesSurfaces, updateRingPairDesignGroovesAlignments, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesTypes, updateRing1DesignGroovesWidths, updateRing1DesignGroovesSurfaces, updateRing1DesignGroovesAlignments, updateRing1DesignGroovesPositions, updateRing2DesignGroovesTypes, updateRing2DesignGroovesWidths, updateRing2DesignGroovesSurfaces, updateRing2DesignGroovesAlignments, updateRing2DesignGroovesPositions, deleteRingPairDesignGroove, deleteRing1DesignGroove, deleteRing2DesignGroove, deleteRingPairAll, deleteRing1All, deleteRing2All };
+const mapActionsToProps = {
+    setRingPairDesignGrooveAdd,
+    setRing1DesignGrooveAdd,
+    setRing2DesignGrooveAdd,
+    setRingPairDesignGroovesTypes,
+    setRingPairDesignGroovesWidths,
+    setRingPairDesignGroovesSurfaces,
+    setRingPairDesignGroovesAlignments,
+    setRingPairDesignGroovesPositions,
+    setRing1DesignGroovesTypes,
+    setRing1DesignGroovesWidths,
+    setRing1DesignGroovesSurfaces,
+    setRing1DesignGroovesAlignments,
+    setRing1DesignGroovesPositions,
+    setRing2DesignGroovesTypes,
+    setRing2DesignGroovesWidths,
+    setRing2DesignGroovesSurfaces,
+    setRing2DesignGroovesAlignments,
+    setRing2DesignGroovesPositions,
+    updateRingPairDesignGroovesTypes,
+    updateRingPairDesignGroovesWidths,
+    updateRingPairDesignGroovesSurfaces,
+    updateRingPairDesignGroovesAlignments,
+    updateRingPairDesignGroovesPositions,
+    updateRing1DesignGroovesTypes,
+    updateRing1DesignGroovesWidths,
+    updateRing1DesignGroovesSurfaces,
+    updateRing1DesignGroovesAlignments,
+    updateRing1DesignGroovesPositions,
+    updateRing2DesignGroovesTypes,
+    updateRing2DesignGroovesWidths,
+    updateRing2DesignGroovesSurfaces,
+    updateRing2DesignGroovesAlignments,
+    updateRing2DesignGroovesPositions,
+    setRingPairDesignGroovesSine,
+    setRing1DesignGroovesSine,
+    setRing2DesignGroovesSine,
+    setRingPairDesignGroovesSineHeight,
+    setRing1DesignGroovesSineHeight,
+    setRing2DesignGroovesSineHeight,
+    setRingDesignGroovesIndex,
+    deleteRingPairDesignGroove,
+    deleteRing1DesignGroove,
+    deleteRing2DesignGroove,
+    deleteRingPairAll,
+    deleteRing1All,
+    deleteRing2All
+};
 
 export default connect(mapStateToProps, mapActionsToProps)(DesignGroovesControl);

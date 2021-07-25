@@ -15,12 +15,6 @@ import Footer from '../components/Footer';
 
 export default function Home() {
     const { loading } = useSelector(state => state.ui);
-    console.log('LOADING: ' + loading);
-    const data = useSelector(state => state.data);
-
-    useEffect(() => {
-        localStorage.getItem('state') != null && console.log(JSON.parse(localStorage.getItem('state')));
-    }, []);
 
     return (
         <>
