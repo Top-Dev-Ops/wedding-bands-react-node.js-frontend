@@ -1546,7 +1546,6 @@ h6 {
   .separation-grooves.tab-edges li.option { width: calc(100% - 10px); }
   .separation-grooves.tab-edges li .option-span { font-size: 12px; }
 }
-.horizontal-slider { padding-top: 30px; }
 .horizontal-slider label { font-size: 13px; }
 .horizontal-slider .color-canvas {
   height: 28px;

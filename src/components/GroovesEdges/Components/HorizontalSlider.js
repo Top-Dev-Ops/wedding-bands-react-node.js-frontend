@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export default function HorizontalSlider({ ring_number }) {
     const _state = useSelector(state => state);
-    const { ring_1_material, ring_1_surface, ring_1_2_surface, ring_1_3_surface, ring_1_width, ring_2_material, ring_2_surface, ring_2_2_surface, ring_2_3_surface, ring_2_width } = _state.data;
+    const { ring_1_material, ring_1_surface, ring_1_2_surface, ring_1_3_surface, ring_1_width, ring_2_material, ring_2_surface, ring_2_2_surface, ring_2_3_surface, ring_2_width, wizard } = _state.data;
     const canvas_colors = ['#eaca7c', '#dbb177', '#dbac88', '#ac9f93', '#c1bdbc', '#b2b7b9', '#bcbbbb'];
 
     const profile_width = ring_number === 'Ring 1' ? ring_1_width / 2 + 2 : ring_2_width / 2 + 2;
@@ -286,15 +286,19 @@ export default function HorizontalSlider({ ring_number }) {
     }
 
     return (
-        <section className="horizontal-slider">
-            <label>{ring_number}</label>
-            <div className="color-canvas" style={{ background: `${color}` }}>
-                <span style={{ left: `${left_0}` }}>1</span>
-                {ring_number === 'Ring 1' && !ring_1_material.includes('one') && <span style={{ left: `${left_1}` }}>2</span>}
-                {ring_number === 'Ring 1' && ring_1_material.includes('three') && <span style={{ left: `${left_2}` }}>3</span>}
-                {ring_number === 'Ring 2' && !ring_2_material.includes('one') && <span style={{ left: `${left_1}` }}>2</span>}
-                {ring_number === 'Ring 2' && ring_2_material.includes('three') && <span style={{ left: `${left_2}` }}>3</span>}
-            </div>
+        <section className="horizontal-slider" style={{ paddingTop: `${wizard === 'grooves' ? '30px' : undefined}` }}>
+            {wizard === 'grooves' &&
+                <>
+                    <label>{ring_number}</label>
+                    <div className="color-canvas" style={{ background: `${color}` }}>
+                        <span style={{ left: `${left_0}` }}>1</span>
+                        {ring_number === 'Ring 1' && !ring_1_material.includes('one') && <span style={{ left: `${left_1}` }}>2</span>}
+                        {ring_number === 'Ring 1' && ring_1_material.includes('three') && <span style={{ left: `${left_2}` }}>3</span>}
+                        {ring_number === 'Ring 2' && !ring_2_material.includes('one') && <span style={{ left: `${left_1}` }}>2</span>}
+                        {ring_number === 'Ring 2' && ring_2_material.includes('three') && <span style={{ left: `${left_2}` }}>3</span>}
+                    </div>
+                </>
+            }
             <div className="ratio-canvas">
                 <div className="vertical-1" style={{ width: `${width_0}`, left: `${left_start_0}` }}></div>
                 {ring_number === 'Ring 1' && !ring_1_material.includes('one') && <div className="vertical-2" style={{ width: `${width_1}`, left: `${left_start_1}` }}></div>}

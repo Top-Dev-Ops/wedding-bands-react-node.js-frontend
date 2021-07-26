@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setRingPairDiamondSetting, setRing1DiamondSetting, setRing2DiamondSetting } from '../../redux/actions';
 
+import HorizontalSlider from '../GroovesEdges/Components/HorizontalSlider';
+
 class FreePosition extends Component {
 
   constructor(props) {
@@ -13,14 +15,15 @@ class FreePosition extends Component {
     this.state = { show_diamonds: false }
   }
 
-  componentDidMount() {
-
-  }
-
   render() {
 
     return (
-      <canvas id="diamondCanvas" height="10px" style={{ background: '#f3f3f3', width: '100%' }}></canvas>
+      <>
+        <canvas id="diamondCanvas" height="10px" style={{ background: '#f3f3f3', width: '100%' }}></canvas>
+
+        {(['pair', 'ring_1'].includes(this.props.data.ring)) && <HorizontalSlider ring_number="Ring 1" />}
+        {(this.props.data.ring === 'ring_2') && <HorizontalSlider ring_number="Ring 2" />}
+      </>
     );
   }
 }

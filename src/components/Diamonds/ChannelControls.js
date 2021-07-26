@@ -12,6 +12,8 @@ import baguette from '../../assets/img/diamonds/diamond_cuts/baguette.png';
 
 import { brilliant_diamond_sizes, princess_diamond_sizes, baguette_diamond_sizes } from '../../assets/diamond_sizes';
 
+import FreePosition from './FreePosition';
+
 class ChannelControls extends Component {
 
     constructor(props) {
@@ -259,6 +261,11 @@ class ChannelControls extends Component {
                             </div>
                         </div>
                     </div>
+
+                    {/* FreePosition component */}
+                    {position === 3 && <div className="col-12">
+                        <FreePosition />
+                    </div>}
                 </div>
             </div>
         )
