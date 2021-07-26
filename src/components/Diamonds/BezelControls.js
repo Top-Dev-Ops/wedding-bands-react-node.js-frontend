@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 
+import FreePosition from './FreePosition';
+
 // redux
 import { connect } from 'react-redux';
 import { setRingPairDiamondCut, setRing1DiamondCut, setRing2DiamondCut, setRingPairDiamondSize, setRing1DiamondSize, setRing2DiamondSize, setRingPairDiamondQuality, setRing1DiamondQuality, setRing2DiamondQuality, setRingPairNumOfStones, setRing1NumOfStones, setRing2NumOfStones, setRingPairRows, setRing1Rows, setRing2Rows, setRingPairPosition, setRing1Position, setRing2Position } from '../../redux/actions';
@@ -26,7 +28,7 @@ class BezelControls extends Component {
                 show_diamond_size: false,
                 show_diamond_quality: false,
                 show_num_of_stones: false,
-                show_position: false
+                show_position: false,
             }
         } else {
             this.state = {
@@ -96,6 +98,7 @@ class BezelControls extends Component {
     }
     handlePosition = e => {
         const value = parseInt(e.target.id.replace('position_', ''));
+        console.log(value);
         this.setState({ position: value, show_position: false });
         if (this.props.data.ring === 'pair') { this.props.setRingPairPosition(value); }
         else if (this.props.data.ring === 'ring_1') { this.props.setRing1Position(value); }
@@ -264,6 +267,11 @@ class BezelControls extends Component {
                             </div>
                         </div>
                     </div>
+
+                    {/* FreePosition component */}
+                    {position === 3 && <div className="col-12">
+                        <FreePosition />
+                    </div>}
                 </div>
             </div>
         )

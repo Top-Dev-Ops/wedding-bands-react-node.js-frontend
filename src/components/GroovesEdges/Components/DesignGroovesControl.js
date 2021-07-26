@@ -108,13 +108,15 @@ class DesignGroovesControl extends Component {
             else if (this.props.data.ring === 'ring_1') { this.props.setRing1DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: parseInt(e.target.id.replace('height_', '')) }); }
             else { this.props.setRing2DesignGroovesSineHeight({ index: this.state.groove_tab, sine_height: parseInt(e.target.id.replace('height_', '')) }); }
         } else if (e.target.id.includes('stepper_minus')) {
+            console.log('minus');
             if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
             else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
             else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_2_design_grooves_positions[this.state.groove_tab] - 0.1).toFixed(1)) }); }
         } else if (e.target.id.includes('stepper_plus')) {
+            console.log('plus');
             if (this.props.data.ring === 'pair') { this.props.updateRingPairDesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] + 0.1).toFixed(1)) }); }
             else if (this.props.data.ring === 'ring_1') { this.props.updateRing1DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_1_design_grooves_positions[this.state.groove_tab] + 0.1).toFixed(1)) }); }
-            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: this.props.data.ring_2_design_grooves_positions[this.state.groove_tab] + 0.1 }); }
+            else { this.props.updateRing2DesignGroovesPositions({ index: this.state.groove_tab, position: parseFloat((this.props.data.ring_2_design_grooves_positions[this.state.groove_tab] + 0.1).toFixed(1)) }); }
         } else if (e.target.id.includes('delete_this')) {
             if (this.props.data.ring === 'pair') { this.props.deleteRingPairDesignGroove(this.state.groove_tab); }
             else if (this.props.data.ring === 'ring_1') { this.props.deleteRing1DesignGroove(this.state.groove_tab); }
@@ -349,6 +351,7 @@ class DesignGroovesControl extends Component {
                                 </div>
                             </div>
 
+                            {/* number of waves, height of the wave select */}
                             {alignment === 1 &&
                                 <>
                                     {/* number of waves select */}

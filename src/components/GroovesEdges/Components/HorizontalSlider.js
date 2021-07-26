@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
 
-// redux
 import { useSelector } from 'react-redux';
 
 export default function HorizontalSlider({ ring_number }) {
     const _state = useSelector(state => state);
-    const { ring_1_material, ring_1_surface, ring_1_2_surface, ring_1_3_surface, ring_2_material, ring_2_surface, ring_2_2_surface, ring_2_3_surface } = _state.data;
+    const { ring_1_material, ring_1_surface, ring_1_2_surface, ring_1_3_surface, ring_1_width, ring_2_material, ring_2_surface, ring_2_2_surface, ring_2_3_surface, ring_2_width } = _state.data;
     const canvas_colors = ['#eaca7c', '#dbb177', '#dbac88', '#ac9f93', '#c1bdbc', '#b2b7b9', '#bcbbbb'];
+
+    const profile_width = ring_number === 'Ring 1' ? ring_1_width / 2 + 2 : ring_2_width / 2 + 2;
+
     let color = "";
     let left_0 = "0%";
     let left_1 = "0%";
@@ -19,16 +21,16 @@ export default function HorizontalSlider({ ring_number }) {
     let left_start_0 = "0%";
     let left_start_1 = "0%";
     let left_start_2 = "0%";
-    let ratio_0 = "2.5 mm";
-    let ratio_1 = "2.5 mm";
-    let ratio_2 = "2.5 mm";
+    let ratio_0 = (profile_width / 2).toFixed(2) + ' mm';
+    let ratio_1 = (profile_width / 2).toFixed(2) + ' mm';
+    let ratio_2 = (profile_width / 2).toFixed(2) + ' mm';
 
     if (ring_number === 'Ring 1') {
         if (ring_1_material.includes('one')) {
             color = `${canvas_colors[parseInt(ring_1_surface)]}`;
             left_0 = "50%";
             width_0 = "100%";
-            ratio_0 = "5 mm";
+            ratio_0 = profile_width + " mm";
         } else if (ring_1_material.includes('two')) {
             const ratio = ring_1_material.charAt(ring_1_material.length - 1);
             if (ratio == 0 || ratio == 3 || ratio == 4) {
@@ -45,8 +47,8 @@ export default function HorizontalSlider({ ring_number }) {
                 width_0 = '65.5%';
                 width_1 = "33.5%";
                 left_start_1 = "66.5%";
-                ratio_0 = "3.33 mm";
-                ratio_1 = "1.67 mm";
+                ratio_0 = (2 * profile_width / 3).toFixed(2) + ' mm';
+                ratio_1 = (profile_width / 3).toFixed(2) + ' mm';
             } else {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 74%, #000 75%, ${canvas_colors[parseInt(ring_1_2_surface)]} 76%, ${canvas_colors[parseInt(ring_1_2_surface)]} 100%)`;
                 left_0 = "37%";
@@ -54,8 +56,8 @@ export default function HorizontalSlider({ ring_number }) {
                 width_0 = "74.5%";
                 width_1 = "24.5%";
                 left_start_1 = "75.5%";
-                ratio_0 = "3.75 mm";
-                ratio_1 = "1.25 mm";
+                ratio_0 = (profile_width * .75).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .25).toFixed(2) + ' mm';
             }
         } else {
             const ratio = ring_1_material.charAt(ring_1_material.length - 1);
@@ -69,9 +71,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "33.5%";
                 left_start_1 = "33.5%";
                 left_start_2 = "66.5%";
-                ratio_0 = "1.67 mm";
-                ratio_1 = "1.67 mm";
-                ratio_2 = "1.67 mm";
+                ratio_0 = (profile_width / 3).toFixed(2) + " mm";
+                ratio_1 = (profile_width / 3).toFixed(2) + " mm";
+                ratio_2 = (profile_width / 3).toFixed(2) + " mm";
             } else if (ratio == 1) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 60%, #000 61%, ${canvas_colors[parseInt(ring_1_2_surface)]} 62%, ${canvas_colors[parseInt(ring_1_2_surface)]} 80%, #000 81%, ${canvas_colors[parseInt(ring_1_3_surface)]} 82%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "30%";
@@ -82,9 +84,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "18.5%";
                 left_start_1 = "61.5%";
                 left_start_2 = "81.5%";
-                ratio_0 = "3 mm";
-                ratio_1 = "1 mm";
-                ratio_2 = "1 mm";
+                ratio_0 = (profile_width * .6).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .2).toFixed(2) + ' mm';
             } else if (ratio == 2) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 64%, #000 65%, ${canvas_colors[parseInt(ring_1_2_surface)]} 66%, ${canvas_colors[parseInt(ring_1_2_surface)]} 83%, #000 84%, ${canvas_colors[parseInt(ring_1_3_surface)]} 85%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "32%";
@@ -95,9 +97,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "15.5%";
                 left_start_1 = "65.5%";
                 left_start_2 = "84.5%";
-                ratio_0 = "3.33 mm";
-                ratio_1 = "0.83 mm";
-                ratio_2 = "0.83 mm";
+                ratio_0 = (profile_width * 2 / 3).toFixed(2) + ' mm';
+                ratio_1 = (profile_width / 6).toFixed(2) + ' mm';
+                ratio_2 = (profile_width / 6).toFixed(2) + ' mm';
             } else if (ratio == 3) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 24%, #000 25%, ${canvas_colors[parseInt(ring_1_2_surface)]} 26%, ${canvas_colors[parseInt(ring_1_2_surface)]} 75%, #000 76%, ${canvas_colors[parseInt(ring_1_3_surface)]} 77%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "12%";
@@ -108,9 +110,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "23.5%";
                 left_start_1 = "25.5%";
                 left_start_2 = "76.5%";
-                ratio_0 = "1.25 mm";
-                ratio_1 = "2.5 mm";
-                ratio_2 = "1.25 mm";
+                ratio_0 = (profile_width * .25).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .5).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .25).toFixed(2) + ' mm';
             } else if (ratio == 4) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 20%, #000 21%, ${canvas_colors[parseInt(ring_1_2_surface)]} 22%, ${canvas_colors[parseInt(ring_1_2_surface)]} 79%, #000 80%, ${canvas_colors[parseInt(ring_1_3_surface)]} 81%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "10%";
@@ -121,9 +123,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "19.5%";
                 left_start_1 = "21.5%";
                 left_start_2 = "80.5%";
-                ratio_0 = "1 mm";
-                ratio_1 = "3 mm";
-                ratio_2 = "1 mm";
+                ratio_0 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .6).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .2).toFixed(2) + ' mm';
             } else if (ratio == 5) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 16%, #000 17%, ${canvas_colors[parseInt(ring_1_2_surface)]} 18%, ${canvas_colors[parseInt(ring_1_2_surface)]} 81%, #000 82%, ${canvas_colors[parseInt(ring_1_3_surface)]} 83%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "8%";
@@ -134,9 +136,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "17.5%";
                 left_start_1 = "17.5%";
                 left_start_2 = "82.5%";
-                ratio_0 = "0.83 mm";
-                ratio_1 = "3.33 mm";
-                ratio_2 = "0.83 mm";
+                ratio_1 = (profile_width * 2 / 3).toFixed(2) + ' mm';
+                ratio_0 = (profile_width / 6).toFixed(2) + ' mm';
+                ratio_2 = (profile_width / 6).toFixed(2) + ' mm';
             } else {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_1_surface)]} 0%, ${canvas_colors[parseInt(ring_1_surface)]} 40%, #000 41%, ${canvas_colors[parseInt(ring_1_2_surface)]} 42%, ${canvas_colors[parseInt(ring_1_2_surface)]} 58%, #000 59%, ${canvas_colors[parseInt(ring_1_3_surface)]} 60%, ${canvas_colors[parseInt(ring_1_3_surface)]} 100%)`;
                 left_0 = "20%";
@@ -147,9 +149,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "40.5%";
                 left_start_1 = "41.5%";
                 left_start_2 = "59.5%";
-                ratio_0 = "2 mm";
-                ratio_1 = "1 mm";
-                ratio_2 = "2 mm";
+                ratio_0 = (profile_width * .4).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .4).toFixed(2) + ' mm';
             }
         }
     } else {
@@ -157,7 +159,7 @@ export default function HorizontalSlider({ ring_number }) {
             color = `${canvas_colors[parseInt(ring_2_surface)]}`;
             left_0 = "50%";
             width_0 = "100%";
-            ratio_0 = "5 mm";
+            ratio_0 = profile_width + ' mm';
         } else if (ring_2_material.includes('two')) {
             const ratio = ring_2_material.charAt(ring_2_material.length - 1);
             if (ratio == 0 || ratio == 3 || ratio == 4) {
@@ -174,8 +176,8 @@ export default function HorizontalSlider({ ring_number }) {
                 width_0 = '65.5%';
                 width_1 = "33.5%";
                 left_start_1 = "66.5%";
-                ratio_0 = "3.33 mm";
-                ratio_1 = "1.67 mm";
+                ratio_0 = (2 * profile_width / 3).toFixed(2) + ' mm';
+                ratio_1 = (profile_width / 3).toFixed(2) + ' mm';
             } else {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 74%, #000 75%, ${canvas_colors[parseInt(ring_2_2_surface)]} 76%, ${canvas_colors[parseInt(ring_2_2_surface)]} 100%)`;
                 left_0 = "37%";
@@ -183,8 +185,8 @@ export default function HorizontalSlider({ ring_number }) {
                 width_0 = "74.5%";
                 width_1 = "24.5%";
                 left_start_1 = "75.5%";
-                ratio_0 = "3.75 mm";
-                ratio_1 = "1.25 mm";
+                ratio_0 = (profile_width * .75).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .25).toFixed(2) + ' mm';
             }
         } else {
             const ratio = ring_2_material.charAt(ring_2_material.length - 1);
@@ -198,9 +200,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "33.5%";
                 left_start_1 = "33.5%";
                 left_start_2 = "66.5%";
-                ratio_0 = "1.67 mm";
-                ratio_1 = "1.67 mm";
-                ratio_2 = "1.67 mm";
+                ratio_0 = (profile_width / 3).toFixed(2) + ' mm';
+                ratio_1 = (profile_width / 3).toFixed(2) + ' mm';
+                ratio_2 = (profile_width / 3).toFixed(2) + ' mm';
             } else if (ratio == 1) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 60%, #000 61%, ${canvas_colors[parseInt(ring_2_2_surface)]} 62%, ${canvas_colors[parseInt(ring_2_2_surface)]} 80%, #000 81%, ${canvas_colors[parseInt(ring_2_3_surface)]} 82%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "30%";
@@ -211,9 +213,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "18.5%";
                 left_start_1 = "61.5%";
                 left_start_2 = "81.5%";
-                ratio_0 = "3 mm";
-                ratio_1 = "1 mm";
-                ratio_2 = "1 mm";
+                ratio_0 = (profile_width * .6).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .2).toFixed(2) + ' mm';
             } else if (ratio == 2) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 64%, #000 65%, ${canvas_colors[parseInt(ring_2_2_surface)]} 66%, ${canvas_colors[parseInt(ring_2_2_surface)]} 83%, #000 84%, ${canvas_colors[parseInt(ring_2_3_surface)]} 85%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "32%";
@@ -224,9 +226,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "15.5%";
                 left_start_1 = "65.5%";
                 left_start_2 = "84.5%";
-                ratio_0 = "3.33 mm";
-                ratio_1 = "0.83 mm";
-                ratio_2 = "0.83 mm";
+                ratio_0 = (profile_width * 2 / 3).toFixed(2) + ' mm';
+                ratio_1 = (profile_width / 6).toFixed(2) + ' mm';
+                ratio_2 = (profile_width / 6).toFixed(2) + ' mm';
             } else if (ratio == 3) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 24%, #000 25%, ${canvas_colors[parseInt(ring_2_2_surface)]} 26%, ${canvas_colors[parseInt(ring_2_2_surface)]} 75%, #000 76%, ${canvas_colors[parseInt(ring_2_3_surface)]} 77%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "12%";
@@ -237,9 +239,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "23.5%";
                 left_start_1 = "25.5%";
                 left_start_2 = "76.5%";
-                ratio_0 = "1.25 mm";
-                ratio_1 = "2.5 mm";
-                ratio_2 = "1.25 mm";
+                ratio_0 = (profile_width * .25).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .5).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .25).toFixed(2) + ' mm';
             } else if (ratio == 4) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 20%, #000 21%, ${canvas_colors[parseInt(ring_2_2_surface)]} 22%, ${canvas_colors[parseInt(ring_2_2_surface)]} 79%, #000 80%, ${canvas_colors[parseInt(ring_2_3_surface)]} 81%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "10%";
@@ -250,9 +252,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "19.5%";
                 left_start_1 = "21.5%";
                 left_start_2 = "80.5%";
-                ratio_0 = "1 mm";
-                ratio_1 = "3 mm";
-                ratio_2 = "1 mm";
+                ratio_0 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .6).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .2).toFixed(2) + ' mm';
             } else if (ratio == 5) {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 16%, #000 17%, ${canvas_colors[parseInt(ring_2_2_surface)]} 18%, ${canvas_colors[parseInt(ring_2_2_surface)]} 81%, #000 82%, ${canvas_colors[parseInt(ring_2_3_surface)]} 83%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "8%";
@@ -263,9 +265,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "17.5%";
                 left_start_1 = "17.5%";
                 left_start_2 = "82.5%";
-                ratio_0 = "0.83 mm";
-                ratio_1 = "3.33 mm";
-                ratio_2 = "0.83 mm";
+                ratio_0 = (profile_width / 6).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * 2 / 3).toFixed(2) + ' mm';
+                ratio_2 = (profile_width / 6).toFixed(2) + ' mm';
             } else {
                 color = `linear-gradient(to right, ${canvas_colors[parseInt(ring_2_surface)]} 0%, ${canvas_colors[parseInt(ring_2_surface)]} 40%, #000 41%, ${canvas_colors[parseInt(ring_2_2_surface)]} 42%, ${canvas_colors[parseInt(ring_2_2_surface)]} 58%, #000 59%, ${canvas_colors[parseInt(ring_2_3_surface)]} 60%, ${canvas_colors[parseInt(ring_2_3_surface)]} 100%)`;
                 left_0 = "20%";
@@ -276,9 +278,9 @@ export default function HorizontalSlider({ ring_number }) {
                 width_2 = "40.5%";
                 left_start_1 = "41.5%";
                 left_start_2 = "59.5%";
-                ratio_0 = "2 mm";
-                ratio_1 = "1 mm";
-                ratio_2 = "2 mm";
+                ratio_0 = (profile_width * .4).toFixed(2) + ' mm';
+                ratio_1 = (profile_width * .2).toFixed(2) + ' mm';
+                ratio_2 = (profile_width * .4).toFixed(2) + ' mm';
             }
         }
     }

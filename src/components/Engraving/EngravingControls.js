@@ -130,7 +130,7 @@ class EngravingControls extends Component {
 
                     {/* engraving font */}
                     <div>
-                        <label>Enraving font</label>
+                        <label>Engraving font</label>
                         <ul className="engraving-fonts">
                             {selected_tab == 0 && _laser_fonts}
                             {selected_tab == 1 && _diamond_fonts}

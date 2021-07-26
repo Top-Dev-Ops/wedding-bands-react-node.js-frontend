@@ -193,6 +193,8 @@ export const SET_RING_2_ROWS = 'SET_RING_2_ROWS';
 export const SET_RING_PAIR_POSITION = 'SET_RING_PAIR_POSITION';
 export const SET_RING_1_POSITION = 'SET_RING_1_POSITION';
 export const SET_RING_2_POSITION = 'SET_RING_2_POSITION';
+export const SET_RING_1_DIAMOND_POSITION = 'SET_RING_1_DIAMOND_POSITION';
+export const SET_RING_2_DIAMOND_POSITION = 'SET_RING_2_DIAMOND_POSITION';
 /* end of diamonds tab */
 
 /* ring engraving reducer types - engraving tab */

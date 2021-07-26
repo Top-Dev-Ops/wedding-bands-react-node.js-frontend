@@ -94,6 +94,8 @@ import {
     SET_RING_PAIR_POSITION,
     SET_RING_1_POSITION,
     SET_RING_2_POSITION,
+    SET_RING_1_DIAMOND_POSITION,
+    SET_RING_2_DIAMOND_POSITION,
     SET_RING_PAIR_ENGRAVING_TEXT,
     SET_RING_1_ENGRAVING_TEXT,
     SET_RING_2_ENGRAVING_TEXT,
@@ -212,8 +214,8 @@ const initialState = {
     ring_2_left_surface: 0,
     ring_2_right_width: 0,
     ring_2_right_surface: 0,
-    ring_1_diamond_setting: 0,
-    ring_2_diamond_setting: 0,
+    ring_1_diamond_setting: 1,
+    ring_2_diamond_setting: 1,
     ring_1_diamond_cut: 0,
     ring_2_diamond_cut: 0,
     ring_1_diamond_size: 0,
@@ -226,6 +228,8 @@ const initialState = {
     ring_2_rows: 0,
     ring_1_position: 1,
     ring_2_position: 1,
+    ring_1_diamond_position: 0.5,
+    ring_2_diamond_position: 0.5,
     ring_1_engraving_text: 'I LOVE YOU',
     ring_2_engraving_text: 'I LOVE YOU',
     ring_1_engraving_font: 0,
@@ -553,6 +557,10 @@ export default function (state = initialState, action) {
             return { ...state, ring_1_position: action.payload, ring_2_position: action.payload };
         case SET_RING_1_POSITION:
             return { ...state, ring_1_position: action.payload };
+        case SET_RING_1_DIAMOND_POSITION:
+            return { ...state, ring_1_diamond_position: action.payload };
+        case SET_RING_2_DIAMOND_POSITION:
+            return { ...state, ring_2_diamond_position: action.payload };
         case SET_RING_2_POSITION:
             return { ...state, ring_2_position: action.payload };
         case SET_RING_PAIR_ENGRAVING_TEXT:

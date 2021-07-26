@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 // redux
 import { connect } from 'react-redux';
-import { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions } from '../../redux/actions';
+import { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions, setRing1DiamondPosition, setRing2DiamondPosition } from '../../redux/actions';
 
 // three js engine for canvas rendering
 import { Metal, Groove, Diamond, RingConfig } from '../../assets/mainConfig';
@@ -36,92 +36,13 @@ class Canvas extends Component {
         this.gGrooveStart = 0;
         this.mousePt = { x: 0, y: 0 };
         this.startPt = { x: 0, y: 0 };
+        this.diamondMousePt = { x: 0, y: 0 };
+        this.diamondStartPt = { x: 0, y: 0 };
         this.mouseCapture = false;
+        this.diamondMouseCapture = false;
         this.captureIndex = 0;
 
         this.container = React.createRef();
-    }
-
-    /* checks if specific redux state changed & updates ring in canvas */
-    checkIfReduxDataStateChanged(prevProps, nowProps) {
-        let state_changed = false;
-
-        if (prevProps.ring_1_disabled != nowProps.ring_1_disabled) { state_changed = true; }
-        if (prevProps.ring_2_disabled != nowProps.ring_2_disabled) { state_changed = true; }
-        if (prevProps.ring_1_material != nowProps.ring_1_material) { state_changed = true; }
-        if (prevProps.ring_2_material != nowProps.ring_2_material) { state_changed = true; }
-        if (prevProps.ring_1_profiles != nowProps.ring_1_profiles) { state_changed = true; }
-        if (prevProps.ring_2_profiles != nowProps.ring_2_profiles) { state_changed = true; }
-        if (prevProps.ring_1_size != nowProps.ring_1_size) { state_changed = true; }
-        if (prevProps.ring_2_size != nowProps.ring_2_size) { state_changed = true; }
-        if (prevProps.ring_1_width != nowProps.ring_1_width) { state_changed = true; }
-        if (prevProps.ring_2_width != nowProps.ring_2_width) { state_changed = true; }
-        if (prevProps.ring_1_height != nowProps.ring_1_height) { state_changed = true; }
-        if (prevProps.ring_2_height != nowProps.ring_2_height) { state_changed = true; }
-        if (prevProps.ring_1_metal != nowProps.ring_1_metal) { state_changed = true; }
-        if (prevProps.ring_2_metal != nowProps.ring_2_metal) { state_changed = true; }
-        if (prevProps.ring_1_surface != nowProps.ring_1_surface) { state_changed = true; }
-        if (prevProps.ring_2_surface != nowProps.ring_2_surface) { state_changed = true; }
-        if (prevProps.ring_1_fineness != nowProps.ring_1_fineness) { state_changed = true; }
-        if (prevProps.ring_2_fineness != nowProps.ring_2_fineness) { state_changed = true; }
-        if (prevProps.ring_1_2_surface != nowProps.ring_1_2_surface) { state_changed = true; }
-        if (prevProps.ring_1_2_metal != nowProps.ring_1_2_metal) { state_changed = true; }
-        if (prevProps.ring_1_2_fineness != nowProps.ring_1_2_fineness) { state_changed = true; }
-        if (prevProps.ring_1_3_surface != nowProps.ring_1_3_surface) { state_changed = true; }
-        if (prevProps.ring_1_3_metal != nowProps.ring_1_3_metal) { state_changed = true; }
-        if (prevProps.ring_1_3_fineness != nowProps.ring_1_3_fineness) { state_changed = true; }
-        if (prevProps.ring_2_2_surface != nowProps.ring_2_2_surface) { state_changed = true; }
-        if (prevProps.ring_2_2_metal != nowProps.ring_2_2_metal) { state_changed = true; }
-        if (prevProps.ring_2_2_fineness != nowProps.ring_2_2_fineness) { state_changed = true; }
-        if (prevProps.ring_2_3_surface != nowProps.ring_2_3_surface) { state_changed = true; }
-        if (prevProps.ring_2_3_metal != nowProps.ring_2_3_metal) { state_changed = true; }
-        if (prevProps.ring_2_3_fineness != nowProps.ring_2_3_fineness) { state_changed = true; }
-        if (prevProps.ring_1_wave_height != nowProps.ring_1_wave_height) { state_changed = true; }
-        if (prevProps.ring_1_number_of_waves != nowProps.ring_1_number_of_waves) { state_changed = true; }
-        if (prevProps.ring_2_wave_height != nowProps.ring_2_wave_height) { state_changed = true; }
-        if (prevProps.ring_2_number_of_waves != nowProps.ring_2_number_of_waves) { state_changed = true; }
-        if (prevProps.ring_1_diamond_setting != nowProps.ring_1_diamond_setting) { state_changed = true; }
-        if (prevProps.ring_2_diamond_setting != nowProps.ring_2_diamond_setting) { state_changed = true; }
-        if (prevProps.ring_1_diamond_cut != nowProps.ring_1_diamond_cut) { state_changed = true; }
-        if (prevProps.ring_2_diamond_cut != nowProps.ring_2_diamond_cut) { state_changed = true; }
-        if (prevProps.ring_1_diamond_size != nowProps.ring_1_diamond_size) { state_changed = true; }
-        if (prevProps.ring_2_diamond_size != nowProps.ring_2_diamond_size) { state_changed = true; }
-        if (prevProps.ring_1_diamond_quality != nowProps.ring_1_diamond_quality) { state_changed = true; }
-        if (prevProps.ring_2_diamond_quality != nowProps.ring_2_diamond_quality) { state_changed = true; }
-        if (prevProps.ring_1_number_of_stones != nowProps.ring_1_number_of_stones) { state_changed = true; }
-        if (prevProps.ring_2_number_of_stones != nowProps.ring_2_number_of_stones) { state_changed = true; }
-        if (prevProps.ring_1_rows != nowProps.ring_1_rows) { state_changed = true; }
-        if (prevProps.ring_2_rows != nowProps.ring_2_rows) { state_changed = true; }
-        if (prevProps.ring_1_position != nowProps.ring_1_position) { state_changed = true; }
-        if (prevProps.ring_2_position != nowProps.ring_2_position) { state_changed = true; }
-        if (prevProps.ring_1_engraving_text != nowProps.ring_1_engraving_text) { state_changed = true; }
-        if (prevProps.ring_2_engraving_text != nowProps.ring_2_engraving_text) { state_changed = true; }
-        if (prevProps.ring_1_engraving_font != nowProps.ring_1_engraving_font) { state_changed = true; }
-        if (prevProps.ring_2_engraving_font != nowProps.ring_2_engraving_font) { state_changed = true; }
-        if (prevProps.ring_1_left_edge != nowProps.ring_1_left_edge) { state_changed = true; }
-        if (prevProps.ring_1_right_edge != nowProps.ring_1_right_edge) { state_changed = true; }
-        if (prevProps.ring_1_left_width != nowProps.ring_1_left_width) { state_changed = true; }
-        if (prevProps.ring_1_right_width != nowProps.ring_1_right_width) { state_changed = true; }
-        if (prevProps.ring_1_left_surface != nowProps.ring_1_left_surface) { state_changed = true; }
-        if (prevProps.ring_1_right_surface != nowProps.ring_1_right_surface) { state_changed = true; }
-        if (prevProps.ring_2_left_edge != nowProps.ring_2_left_edge) { state_changed = true; }
-        if (prevProps.ring_2_right_edge != nowProps.ring_2_right_edge) { state_changed = true; }
-        if (prevProps.ring_2_left_width != nowProps.ring_2_left_width) { state_changed = true; }
-        if (prevProps.ring_2_right_width != nowProps.ring_2_right_width) { state_changed = true; }
-        if (prevProps.ring_2_left_surface != nowProps.ring_2_left_surface) { state_changed = true; }
-        if (prevProps.ring_2_right_surface != nowProps.ring_2_right_surface) { state_changed = true; }
-        if (prevProps.ring_1_design_grooves_types != nowProps.ring_1_design_grooves_types) { state_changed = true; }
-        if (prevProps.ring_1_design_grooves_widths != nowProps.ring_1_design_grooves_widths) { state_changed = true; }
-        if (prevProps.ring_1_design_grooves_surfaces != nowProps.ring_1_design_grooves_surfaces) { state_changed = true; }
-        if (prevProps.ring_1_design_grooves_alignments != nowProps.ring_1_design_grooves_alignments) { state_changed = true; }
-        if (prevProps.ring_1_design_grooves_positions != nowProps.ring_1_design_grooves_positions) { state_changed = true; }
-        if (prevProps.ring_2_design_grooves_types != nowProps.ring_2_design_grooves_types) { state_changed = true; }
-        if (prevProps.ring_2_design_grooves_widths != nowProps.ring_2_design_grooves_widths) { state_changed = true; }
-        if (prevProps.ring_2_design_grooves_surfaces != nowProps.ring_2_design_grooves_surfaces) { state_changed = true; }
-        if (prevProps.ring_2_design_grooves_alignments != nowProps.ring_2_design_grooves_alignments) { state_changed = true; }
-        if (prevProps.ring_2_design_grooves_positions != nowProps.ring_2_design_grooves_positions) { state_changed = true; }
-
-        if (state_changed) { this.testRingConfigurator('switch'); }
     }
 
     /* are called in  */
@@ -221,7 +142,6 @@ class Canvas extends Component {
         }
         return (index >= 0);
     }
-
     calcDiaStoneCount(ringConfig, diamond, cut, spacing) {
         let height = ringConfig.height;
         let circumference = ringConfig.circumference + Math.PI * 2 * height;
@@ -256,7 +176,6 @@ class Canvas extends Component {
         else if (spacing == Diamond.spacing[6]) { stoneCount = parseInt(circumference / (h + gap)); }
         return stoneCount;
     }
-
     getPosCandidate(grooves) {
         var posArray = [0];
         for (var i = 0; i < grooves.grooveArray.length; i++) {
@@ -309,6 +228,32 @@ class Canvas extends Component {
             document.getElementsByTagName('body')[0].style.cursor = 'grab';
         }
     }
+    grooveMouseMove = e => {
+        const canvas = document.getElementById('grooveCanvas');
+        if (this.mouseCapture) {
+            // moves design grooves horizontally
+            let groove = this.ring_1_config.grooves.grooveArray[this.captureIndex];
+            const dx = e.clientX - this.mousePt.x;
+            groove.position += dx / canvas.width;
+
+            this.ring_1_config.grooves.grooveArray[this.captureIndex].position += dx / canvas.width;
+            this.mousePt = { x: e.clientX, y: e.clientY };
+            this.ring_1_config.displayGroove(this.gGrooveStart, this.captureIndex);
+        } else {
+            // moves design grooves vertically
+            const H = canvas.height - 20;
+            const dy = e.clientY - this.mousePt.y;
+            this.gGrooveStart += 180 * dy / H;
+            if (this.gGrooveStart < 0) { this.gGrooveStart += 360; }
+            if (this.gGrooveStart > 360) { this.gGrooveStart -= 360; }
+            this.mousePt = { x: e.clientX, y: e.clientY };
+            this.props.data.wizard === 'grooves' && (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') && this.props.data.ring_1_design_grooves_types.length > 0 && this.ring_1_config.displayGroove(this.gGrooveStart);
+            this.props.data.wizard === 'grooves' && this.props.data.ring === 'ring_2' && this.props.data.ring_2_design_grooves_types.length > 0 && this.ring_2_config.displayGroove(this.gGrooveStart);
+        }
+    }
+    mouseLeaveCanvas = () => {
+        if (!this.mouseCapture) { document.getElementsByTagName('body')[0].style.cursor = 'default'; }
+    }
     mouseUpCanvas = (e) => {
         const canvas = document.getElementById('grooveCanvas');
         document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseMove);
@@ -353,31 +298,61 @@ class Canvas extends Component {
             });
         }
     }
-    grooveMouseMove = e => {
-        const canvas = document.getElementById('grooveCanvas');
-        if (this.mouseCapture) {
-            // moves design grooves horizontally
-            let groove = this.ring_1_config.grooves.grooveArray[this.captureIndex];
-            const dx = e.clientX - this.mousePt.x;
-            groove.position += dx / canvas.width;
 
-            this.ring_1_config.grooves.grooveArray[this.captureIndex].position += dx / canvas.width;
-            this.mousePt = { x: e.clientX, y: e.clientY };
-            this.ring_1_config.displayGroove(this.gGrooveStart, this.captureIndex);
-        } else {
-            // moves design grooves vertically
-            const H = canvas.height - 20;
-            const dy = e.clientY - this.mousePt.y;
-            this.gGrooveStart += 180 * dy / H;
-            if (this.gGrooveStart < 0) { this.gGrooveStart += 360; }
-            if (this.gGrooveStart > 360) { this.gGrooveStart -= 360; }
-            this.mousePt = { x: e.clientX, y: e.clientY };
-            this.props.data.wizard === 'grooves' && (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') && this.props.data.ring_1_design_grooves_types.length > 0 && this.ring_1_config.displayGroove(this.gGrooveStart);
-            this.props.data.wizard === 'grooves' && this.props.data.ring === 'ring_2' && this.props.data.ring_2_design_grooves_types.length > 0 && this.ring_2_config.displayGroove(this.gGrooveStart);
+    // mouse events on diamond canvas
+    mouseDownDiamondCanvas = e => {
+        if (this.diamondMouseCapture) {
+            document.getElementById('diamondCanvas').removeEventListener('mousemove', this.diamondMouseDetector);
+            this.diamondMousePt = { x: e.clientX, y: e.clientY };
+            this.diamondStartPt = { x: e.clientX, y: e.clientY };
+            document.getElementById('diamondCanvas').addEventListener('mousemove', this.diamondMouseMove);
         }
     }
-    mouseLeaveCanvas = () => {
-        if (!this.mouseCapture) { document.getElementsByTagName('body')[0].style.cursor = 'default'; }
+    diamondMouseMove = e => {
+        const canvas = document.getElementById('diamondCanvas');
+        if (this.diamondMouseCapture) {
+            const diamond = ['pair', 'ring_1'].includes(this.props.data.ring) ? this.ring_1_config.diamond : this.ring_2_config.diamond;
+            const dx = e.clientX - this.diamondMousePt.x;
+            diamond.position += dx / canvas.clientWidth;
+            this.diamondMousePt = { x: e.clientX, y: e.clientY };
+            this.drawDiamondPosition(diamond.position);
+        }
+    }
+    diamondMouseDetector = e => {
+        if ((['pair', 'ring_1'].includes(this.props.data.ring) && this.props.data.ring_1_position !== 3) || (this.props.data.ring === 'ring_2' && this.props.data.ring_2_position !== 3)) {
+            return;
+        }
+        const canvas = document.getElementById('diamondCanvas');
+        const diamond = ['pair', 'ring_1'].includes(this.props.data.ring) ? this.ring_1_config.diamond : this.ring_2_config.diamond;
+        const X0 = diamond.position * canvas.clientWidth;
+        let captured = false;
+        if (Math.abs(e.offsetX - X0) < 4) {
+            captured = true;
+            this.diamondMouseCapture = true;
+            document.getElementsByTagName('body')[0].style.cursor = 'col-resize';
+        }
+        if (!captured) {
+            this.diamondMouseCapture = false;
+            document.getElementsByTagName('body')[0].style.cursor = 'default';
+        }
+    }
+    diamondMouseUp = e => {
+        const canvas = document.getElementById('diamondCanvas');
+        document.getElementById('diamondCanvas').removeEventListener('mousemove', this.diamondMouseMove);
+        document.getElementById('diamondCanvas').addEventListener('mousemove', this.diamondMouseDetector);
+        if (this.diamondMouseCapture) {
+            this.diamondMouseCapture = false;
+            if (['pair', 'ring_1'].includes(this.props.data.ring)) {
+                this.props.setRing1DiamondPosition(this.ring_1_config.diamond.position);
+            } else {
+                this.props.setRing2DiamondPosition(this.ring_2_config.diamond.position);
+            }
+        }
+    }
+    diamondMouseLeave = () => {
+        if (!this.diamondMouseCapture) {
+            document.getElementsByTagName('body')[0].style.cursor = 'default';
+        }
     }
 
     /* initialises & updates ring in canvas */
@@ -442,6 +417,8 @@ class Canvas extends Component {
             ring_2_design_grooves_alignments,
             ring_1_design_grooves_sine_heights,
             ring_2_design_grooves_sine_heights,
+            ring_1_diamond_position,
+            ring_2_diamond_position
         } = this.props.data;
 
         let metal = null;
@@ -559,7 +536,7 @@ class Canvas extends Component {
             // groove.position = this.getPosCandidate(this.ring_2_config.grooves);
 
             var newPos = ring_2_design_grooves_positions[i];
-            groove.position = newPos / this.ring_2_config;
+            groove.position = newPos / this.ring_2_config.width;
 
             groove.width = grooveWidths[ring_2_design_grooves_widths[i]];
             groove.surface = surfaceArray[ring_2_design_grooves_surfaces[i]];
@@ -642,7 +619,7 @@ class Canvas extends Component {
             diamond.stonePerRow = stoneCount;
         } else { diamond.stonePerRow = parseInt(ring_1_number_of_stones) + 1; }
         diamond.rows = parseInt(ring_1_rows) + 1;
-        diamond.position = ring_1_position == 0 ? 0 : ring_1_position == 2 ? 1 : 0.5;
+        diamond.position = ring_1_position === 0 ? 0 : ring_1_position === 1 ? 0.5 : ring_1_position === 2 ? 1 : ring_1_diamond_position;
         this.ring_1_config.diamond = diamond;
         // ring 2 diamonds
         diamond = this.ring_2_config.diamond;
@@ -675,8 +652,19 @@ class Canvas extends Component {
             diamond.stonePerRow = stoneCount;
         } else { diamond.stonePerRow = parseInt(ring_2_number_of_stones) + 1; }
         diamond.rows = parseInt(ring_2_rows) + 1;
-        diamond.position = ring_2_position == 0 ? 0 : ring_2_position == 2 ? 1 : 0.5;
+        diamond.position = ring_2_position === 0 ? 0 : ring_2_position === 1 ? 0.5 : ring_2_position === 2 ? 1 : ring_2_diamond_position;;
         this.ring_2_config.diamond = diamond;
+        setTimeout(() => {
+            this.props.data.wizard === 'diamonds' && document.getElementById('diamondCanvas') != undefined && document.getElementById('diamondCanvas').addEventListener('mousedown', this.mouseDownDiamondCanvas);
+            this.props.data.wizard === 'diamonds' && document.getElementById('diamondCanvas') != undefined && document.getElementById('diamondCanvas').addEventListener('mousemove', this.diamondMouseDetector);
+            this.props.data.wizard === 'diamonds' && document.getElementById('diamondCanvas') != undefined && document.getElementById('diamondCanvas').addEventListener('mouseup', this.diamondMouseUp);
+            this.props.data.wizard === 'diamonds' && document.getElementById('diamondCanvas') != undefined && document.getElementById('diamondCanvas').addEventListener('mouseleave', this.diamondMouseLeave);
+            if (document.getElementById('diamondCanvas') != null && ['pair', 'ring_1'].includes(this.props.data.ring)) {
+                this.drawDiamondPosition(this.ring_1_config.diamond.position);
+            } else if (document.getElementById('diamondCanvas') != null && this.props.data.ring === 'ring_2') {
+                this.drawDiamondPosition(this.ring_2_config.diamond.position);
+            }
+        }, 500);
 
         /* engraving */
         const fonts = ['hallmark', 'svnfont00', 'svnfont01', 'svnfont02', 'svnfont03', 'svnfont04', 'svnfont10', 'svnfont11', 'arial'];
@@ -741,10 +729,20 @@ class Canvas extends Component {
         if (document.getElementById('grooveCanvas') !== null) {
             document.getElementById('grooveCanvas').removeEventListener('mousemove', this.grooveMouseMove);
             document.getElementById('grooveCanvas').addEventListener('mousemove', this.grooveMouseDetector);
-        }
-        if (this.mouseCapture) {
-            this.mouseCapture = false;
-            this.ring_1_config.displayGroove(this.captureIndex);
+            if (this.mouseCapture) {
+                this.mouseCapture = false;
+                if (this.props.data.ring === 'pair' || this.props.data.ring === 'ring_1') {
+                    this.ring_1_config.displayGroove(this.captureIndex);
+                } else {
+                    this.ring_2_config.displayGroove(this.captureIndex);
+                }
+            }
+        } else if (document.getElementById('diamondCanvas') !== null) {
+            document.getElementById('diamondCanvas').removeEventListener('mousemove', this.diamondMouseMove);
+            document.getElementById('diamondCanvas').addEventListener('mousemove', this.diamondMouseDetector);
+            if (this.diamondMouseCapture) {
+                this.diamondMouseCapture = false;
+            }
         }
     }
 
@@ -758,18 +756,67 @@ class Canvas extends Component {
 
     /* updates ring in canvas when redux state changes (user interaction) */
     componentDidUpdate(prevProps, prevState, snapshot) {
-        // if (this.checkIfReduxDataStateChanged(prevProps.data, this.props.data)) { this.testRingConfigurator('switch'); }
         if (this.props.ui.hand_view) { this.testRingConfigurator('handview'); }
         if (this.props.ui.full_screen) {
             this.testRingConfigurator('fullscreen');
             this.props.stopFullScreen();
         }
         // updates ring when changing redux state
-        if (prevProps.data.wizard !== this.props.data.wizard || prevProps.data.ring !== this.props.data.ring) {
+        if ((prevProps.data.wizard !== this.props.data.wizard && this.props.data.wizard !== 'diamonds')) {
+            return;
+        } else if (this.props.data.wizard !== 'diamonds' && prevProps.data.ring !== this.props.data.ring) {
             return;
         } else if (prevProps.data !== this.props.data) {
             this.testRingConfigurator('switch');
         }
+    }
+
+    /* draw diamond position on canvas in diamond wizard */
+    drawDiamondPosition = position => {
+        const gradient = this.props.data.ring === 'ring_2' ? this.ring_2_config.metal.gradient : this.ring_1_config.metal.gradient;
+        const slice = this.props.data.ring === 'ring_2' ? this.ring_2_config.metal.slice : this.ring_1_config.metal.slice;
+        const canvas = document.getElementById('diamondCanvas');
+        const ctx = canvas.getContext('2d');
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+
+        const colors = [
+            'rgb(227,191,109)',
+            'rgb(219,178,119)',
+            'rgb(220,174,139)',
+            'rgb(178,165,153)',
+            'rgb(193,193,193)',
+            'rgb(185,188,190)',
+            'rgb(197,195,196)',
+            'rgb(210,210,210)',
+            'rgb(143,143,143)'
+        ];
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        let totalSlice = 0;
+        switch (gradient.length) {
+            case 1:
+                ctx.fillStyle = colors[gradient[0]];
+                ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+                break;
+            case 2:
+                totalSlice = slice[0] + slice[1];
+                ctx.fillStyle = colors[gradient[0]];
+                ctx.fillRect(0, 0, canvasWidth * slice[0] / totalSlice, canvasHeight);
+                ctx.fillStyle = colors[gradient[1]];
+                ctx.fillRect(canvasWidth * slice[0] / totalSlice, 0, canvasWidth * slice[1] / totalSlice, canvasHeight);
+                break;
+            case 3:
+                totalSlice = slice[0] + slice[1] + slice[2];
+                ctx.fillStyle = colors[gradient[0]];
+                ctx.fillRect(0, 0, canvasWidth * slice[0] / totalSlice, canvasHeight);
+                ctx.fillStyle = colors[gradient[1]];
+                ctx.fillRect(canvasWidth * slice[0] / totalSlice, 0, canvasWidth * slice[1] / totalSlice, canvasHeight);
+                ctx.fillStyle = colors[gradient[2]];
+                ctx.fillRect(canvasWidth * (slice[0] + slice[1]) / totalSlice, 0, canvasWidth * slice[2] / totalSlice, canvasHeight);
+                break;
+        }
+        ctx.fillStyle = '#FF0000';
+        ctx.fillRect(canvasWidth * position - 1, 0, 2, canvasHeight);
     }
 
     render() {
@@ -793,6 +840,6 @@ Canvas.propTypes = {
 };
 
 const mapStateToProps = (state) => ({ data: state.data, ui: state.ui });
-const mapActionsToProps = { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions };
+const mapActionsToProps = { stopHandView, stopFullScreen, stopLoading, updateRingPairDesignGroovesPositions, updateRing1DesignGroovesPositions, updateRing2DesignGroovesPositions, setRing1DiamondPosition, setRing2DiamondPosition };
 
 export default connect(mapStateToProps, mapActionsToProps)(Canvas);

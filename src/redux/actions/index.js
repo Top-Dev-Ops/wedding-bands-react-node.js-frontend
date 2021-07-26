@@ -169,7 +169,9 @@ import {
     DELETE_RING_PAIR_ALL,
     DELETE_RING_1_ALL,
     DELETE_RING_2_ALL,
-    LOAD_FILE
+    LOAD_FILE,
+    SET_RING_1_DIAMOND_POSITION,
+    SET_RING_2_DIAMOND_POSITION
 } from '../types';
 
 // loading actions
@@ -551,6 +553,8 @@ const setRing2Rows = (rows) => (dispatch) => { dispatch({ type: SET_RING_2_ROWS,
 const setRingPairPosition = (position) => (dispatch) => { dispatch({ type: SET_RING_PAIR_POSITION, payload: position }); }
 const setRing1Position = (position) => (dispatch) => { dispatch({ type: SET_RING_1_POSITION, payload: position }); }
 const setRing2Position = (position) => (dispatch) => { dispatch({ type: SET_RING_2_POSITION, payload: position }); }
+const setRing1DiamondPosition = (position) => dispatch => { dispatch({ type: SET_RING_1_DIAMOND_POSITION, payload: position }); }
+const setRing2DiamondPosition = (position) => dispatch => { dispatch({ type: SET_RING_2_DIAMOND_POSITION, payload: position }); };
 
 // engraving text actions
 const setRingPairEngravingText = (text) => (dispatch) => { dispatch({ type: SET_RING_PAIR_ENGRAVING_TEXT, payload: text }); }
@@ -673,6 +677,8 @@ export {
     setRingPairPosition,
     setRing1Position,
     setRing2Position,
+    setRing1DiamondPosition,
+    setRing2DiamondPosition,
     setRingPairGroove,
     setRing1Groove,
     setRing2Groove,

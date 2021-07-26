@@ -1,14 +1,14 @@
 <!-- config -->
 <config>
 	<rescources>
-        <rescource asyncResolve="true" name="svnfont00" type="font" path="data/fonts/svnfont00.woff2"/>
-        <rescource asyncResolve="true" name="svnfont01" type="font" path="data/fonts/svnfont01.woff2"/>
-        <rescource asyncResolve="true" name="svnfont02" type="font" path="data/fonts/svnfont02.woff2"/>
-        <rescource asyncResolve="true" name="svnfont03" type="font" path="data/fonts/svnfont03.woff2"/>
-        <rescource asyncResolve="true" name="svnfont04" type="font" path="data/fonts/svnfont04.woff2"/>
-        <rescource asyncResolve="true" name="svnfont10" type="font" path="data/fonts/svnfont10.woff2"/>
-        <rescource asyncResolve="true" name="svnfont11" type="font" path="data/fonts/svnfont11.woff2"/>
-        <rescource asyncResolve="true" name="hallmark" type="font" path="data/fonts/hallmark.ttf"/>
+        <rescource asyncResolve="true" name="svnfont00" type="font" path="data/fonts/fl2_bernhard.ttf"/>
+        <rescource asyncResolve="true" name="svnfont01" type="font" path="data/fonts/fl3_palette.ttf"/>
+        <rescource asyncResolve="true" name="svnfont02" type="font" path="data/fonts/fl4_gando.ttf"/>
+        <rescource asyncResolve="true" name="svnfont03" type="font" path="data/fonts/fl5_finehand.ttf"/>
+        <rescource asyncResolve="true" name="svnfont04" type="font" path="data/fonts/fm1_palace.ttf"/>
+        <rescource asyncResolve="true" name="svnfont10" type="font" path="data/fonts/fm2_times.ttf"/>
+        <rescource asyncResolve="true" name="svnfont11" type="font" path="data/fonts/fm3_times_kursiv.ttf"/>
+        <rescource asyncResolve="true" name="hallmark" type="font" path="data/fonts/fl1_shelly.ttf"/>
 
 		<rescource name="polished-posx" type="image" path="data/assets/images/basemap/XXX_LF.jpg"/>
         <rescource name="polished-negx" type="image" path="data/assets/images/basemap/XXX_RT.jpg"/>

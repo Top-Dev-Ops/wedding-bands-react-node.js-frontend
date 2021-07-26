@@ -60,7 +60,7 @@ class DiamondsControls extends Component {
                             <div style={{ backgroundImage: `url(${diamonds[parseInt(diamond_type)].image})` }}></div>
                         </div>
 
-                        {/* 'modify settings' button */}
+                        {/* modify settings button */}
                         <button className="btn" type="button" onClick={this.handleModify}>
                             <span onClick={this.handleModify}>Modify setting</span>
                             <i icon="arrow-down" className="svg-icon svg-icon-arrow-down active">
