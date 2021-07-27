@@ -25,7 +25,7 @@ yarn test
 Before running frontend, please make sure that backend is running.
 
 ## Live URL
-Demo URL: https://vercel.com/topdevops/wedding-bands-react-node-js-frontend
+Demo URL: https://wedding-bands-react-node-js-frontend-topdevops.vercel.app/
 
 ## License
 
